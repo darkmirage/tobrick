@@ -51,6 +51,12 @@ gulp.task('img', function() {
     .pipe(notify({ message: 'Images task complete' }));
 });
 
+gulp.task('csv', function() {
+  return gulp.src('src/csv/**/*')
+    .pipe(gulp.dest('public/csv'))
+    .pipe(notify({ message: 'CSV task complete' }));
+});
+
 gulp.task('tmp-img', function() {
   return gulp.src('tmp/**/*')
     .pipe(gulp.dest('public/img/tmp'))
@@ -68,11 +74,11 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('css', 'js', 'img', 'tmp-img', 'html', 'lib');
+    gulp.start('css', 'js', 'img', 'csv', 'tmp-img', 'html', 'lib');
 });
 
 gulp.task('build', ['clean'], function() {
-    gulp.start('css', 'js', 'img', 'html', 'lib');
+    gulp.start('css', 'js', 'img', 'csv', 'html', 'lib');
 });
 
 gulp.task('watch', function() {
@@ -85,9 +91,14 @@ gulp.task('watch', function() {
 
   // Watch .js files
   gulp.watch('src/js/**/*.js', ['js']);
+  gulp.watch('lib/**/*.js', ['lib']);
 
   // Watch image files
   gulp.watch('src/img/**/*', ['img']);
+  gulp.watch('tmp/**/*', ['tmp-img']);
+
+  // Watch .csv files
+  gulp.watch('src/csv/**/*', ['csv']);
 
   // Create LiveReload server
   livereload.listen();
