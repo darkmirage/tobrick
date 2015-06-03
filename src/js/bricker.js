@@ -6,50 +6,67 @@
 /* global DitherJS: false */
 
 
-function Bricker(class_name, colors, num_vertical_blocks) {
+function Bricker(original_image, colors, num_vertical_blocks) {
   var self = this;
-  var original_image = $('.' + class_name);
-  var block_size = 16;
+  var kOrigImage = original_image;
+  var kBlockSize = 16;
+  var kScratchCanvas = $('#bricker-scratch-canvas');
+  var kScratchImg = $('#bricker-scratch-img');
 
-  self.num_vertical_blocks = num_vertical_blocks;
+  self.numVerticalBlocks = num_vertical_blocks;
   self.colors = colors;
-  self.cached_results = {};
+  self.cachedResults = {};
 
-  self._cloneImage = function() {
-    var displayBox = $('<div></div>');
-    displayBox.appendTo(original_image.parent());
-    displayBox.addClass(self.getSizeKey());
-    displayBox.addClass('dither-display-box');
+  var _cropImage = function() {
+    var src_width = kOrigImage[0].naturalWidth;
+    var src_height = kOrigImage[0].naturalHeight;
 
-    var tmp = original_image.clone();
-    tmp.removeClass(class_name);
-    tmp.addClass('dither-display-box-image');
+    var new_height = self.numVerticalBlocks * kBlockSize;
+    var new_width = Math.floor((src_width / src_height) * (self.numVerticalBlocks)) * kBlockSize;
+    var resized_width = new_height / src_height * src_width;
+    var x_offset = (resized_width - new_width) / 2;
 
-    var width = tmp.width();
-    var height = tmp.height();
-    var newHeight = block_size * self.num_vertical_blocks;
-    var newWidth = newHeight / height * width;
-    // Needs crop here
-    tmp.width(newWidth);
-    tmp.height(newHeight);
+    var canvas = kScratchCanvas[0];
 
-    // Background comparison image
-    tmp.clone().appendTo(displayBox);
+    canvas.width = new_width;
+    canvas.height = new_height;
 
-    tmp.addClass('tmp-image-' + self.getSizeKey());
-    tmp.appendTo(displayBox);
+    canvas.getContext("2d").drawImage(kOrigImage[0], x_offset, 0, src_width, src_height, 0, 0, new_width, new_height);
 
-    return displayBox;
+    // Not sure if there's a race condition here
+    kScratchImg[0].src = canvas.toDataURL('image/png');
   };
 
-  self._resetZoom = function(displayBox) {
-    var canvas = $('canvas', displayBox);
-    var img = $('img', displayBox);
-    if (canvas.width() <= original_image.width()) {
+  var _cloneImage = function() {
+    var display_box = $('<div></div>');
+    display_box.appendTo(kOrigImage.parent());
+
+    display_box.addClass(self.getSizeKey());
+    display_box.addClass('bricker-display-box');
+
+    _cropImage();
+
+    var tmp = kScratchImg.clone();
+    tmp.removeAttr('id');
+    tmp.addClass('bricker-display-box-image');
+
+    // Background comparison image
+    tmp.clone().appendTo(display_box);
+
+    tmp.addClass('tmp-image-' + self.getSizeKey());
+    tmp.appendTo(display_box);
+
+    return display_box;
+  };
+
+  self._resetZoom = function(display_box) {
+    var canvas = $('canvas', display_box);
+    var img = $('img', display_box);
+    if (canvas.width() <= kOrigImage.width()) {
       return;
     }
 
-    var newWidth = original_image.width();
+    var newWidth = kOrigImage.width();
     var newHeight = canvas.height() / canvas.width() * newWidth;
     canvas.width(newWidth);
     canvas.height(newHeight);
@@ -58,34 +75,34 @@ function Bricker(class_name, colors, num_vertical_blocks) {
   };
 
   self.ditherImage = function() {
-    var displayBox = self._cloneImage();
-    self.cached_results[self.getSizeKey()] = displayBox;
+    var display_box = _cloneImage();
+    self.cachedResults[self.getSizeKey()] = display_box;
 
     var options = {
-        'step': block_size,
+        'step': kBlockSize,
         'className': 'tmp-image-' + self.getSizeKey(),
         'palette': self.colors.getDefaultPalette(),
         'algorithm': 'ordered'
     };
 
 
-    displayBox.css("visibility", "hidden");
+    display_box.css("visibility", "hidden");
     new DitherJS('.tmp-image-' + self.getSizeKey(), options, function() {
-      displayBox.css("visibility", "visible");
-      self._resetZoom(displayBox);
+      display_box.css("visibility", "visible");
+      self._resetZoom(display_box);
     });
   };
 
   self.getSizeKey = function() {
-    return "bricker-size-" + self.num_vertical_blocks;
+    return "bricker-size-" + self.numVerticalBlocks;
   };
 
   self.changeSize = function(num_vertical_blocks) {
-    self.cached_results[self.getSizeKey()].hide();
-    self.num_vertical_blocks = num_vertical_blocks;
+    self.cachedResults[self.getSizeKey()].hide();
+    self.numVerticalBlocks = num_vertical_blocks;
 
-    if (self.getSizeKey() in self.cached_results) {
-      self.cached_results[self.getSizeKey()].show();
+    if (self.getSizeKey() in self.cachedResults) {
+      self.cachedResults[self.getSizeKey()].show();
       return true;
     } else {
       self.ditherImage();

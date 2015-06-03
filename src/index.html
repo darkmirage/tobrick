@@ -16,8 +16,6 @@
 
 <div class="container-fluid">
 
-
-
 <div class="row">
   <div class="col-sm-12">
     <h1>Image to Brick</h1>
@@ -30,11 +28,18 @@
   <div class="col-sm-12
               col-md-10 col-md-offset-1
               col-lg-8 col-lg-offset-0">
-    <img src="img/tmp/starry-night.jpg" class="dither-original">
+    <img src="img/tmp/starry-night.jpg" class="bricker-original">
   </div>
 </div>
 
 </div>
+
+<div class="hide-stuff">
+  <img id="bricker-scratch-img">
+  <canvas id="bricker-scratch-canvas"></canvas>
+</div>
+
+
 
 </body>
 
@@ -54,8 +59,10 @@ function fetchCSV(csv_url, callback) {
 };
 
 $(document).ready(function() {
+  var img = $('.bricker-original');
+
   fetchCSV("csv/lego.csv", function(colors) {
-    window.bricker = new Bricker("dither-original", colors, 30);
+    window.bricker = new Bricker(img, colors, 30);
     bricker.ditherImage();
   });
 });
