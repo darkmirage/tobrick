@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
 <script src="js/lib/ditherjs.js"></script>
 <script src="js/lib/jquery.ditherjs.js"></script>
 <script src="js/main.js"></script>
@@ -62,7 +63,7 @@ $(document).ready(function() {
   var img = $('.bricker-original');
 
   fetchCSV("csv/lego.csv", function(colors) {
-    window.bricker = new Bricker(img, colors, 30);
+    window.bricker = new Bricker(img, colors, 30, true);
     bricker.ditherImage();
   });
 });
