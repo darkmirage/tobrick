@@ -55,7 +55,7 @@ function fetchCSV(csv_url, callback) {
 
 $(document).ready(function() {
   fetchCSV("csv/lego.csv", function(colors) {
-    var bricker = new Bricker("dither-original", colors, 30);
+    window.bricker = new Bricker("dither-original", colors, 30);
     bricker.ditherImage();
   });
 });
