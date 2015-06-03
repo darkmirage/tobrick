@@ -1,11 +1,64 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="js/lib/ditherjs.js"></script>
+<script src="js/lib/jquery.ditherjs.js"></script>
+<script src="js/main.js"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
-<h1>Image to Brick</h1>
 
-<img src="img/pikachu.jpg">
+<div class="container-fluid">
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+    <h1>Image to Brick</h1>
+  </div>
+
+  <div class="col-sm-12
+              col-lg-3">
+
+  </div>
+  <div class="col-sm-12
+              col-md-10 col-md-offset-1
+              col-lg-8 col-lg-offset-0">
+    <img src="img/tmp/starry-night.jpg" class="dither-original">
+  </div>
+</div>
+
+</div>
 
 </body>
+
+<script>
+
+function fetchCSV(csv_url, callback) {
+  $.ajax({
+    type: 'GET',
+    url: csv_url,
+    dataType: 'text',
+    success: function(csv_text) {
+      colors = new Colors(csv_text);
+      console.log('Successfully fetched colors CSV (', csv_url, ')');
+      callback(colors);
+    }
+  });
+};
+
+$(document).ready(function() {
+  fetchCSV("csv/lego.csv", function(colors) {
+    var bricker = new Bricker("dither-original", colors, 30);
+    bricker.ditherImage();
+  });
+});
+</script>
+
 </html>

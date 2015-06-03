@@ -1,0 +1,25 @@
+.dither-original {
+  max-width: 100%;
+  visibility: hidden;
+}
+
+.dither-display-box {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+}
+
+.dither-display-box-image {
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dither-display-box:hover canvas {
+  visibility: hidden;
+}
+
+.tmp-image {
+  visibility: hidden;
+}
