@@ -30,7 +30,7 @@ function Colors(csv_text) {
   var lines = csv_text.split(/\r\n|\n/);
   self.headers = lines[0].split(',');
   self.rows = [];
-  for (var i = 0; i < lines.length; i++) {
+  for (var i = 1; i < lines.length; i++) {
     var line = lines[i].split(',');
     self.rows.push(new Color(self.headers, line));
   }

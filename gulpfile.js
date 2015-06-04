@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
     livereload = require('gulp-livereload'),
-    del = require('del');
+    del = require('del'),
+    react = require('gulp-react');
 
 gulp.task('css', function() {
   return sass('src/css/', { style: 'expanded' })
@@ -24,6 +25,7 @@ gulp.task('css', function() {
 
 gulp.task('js', function() {
   return gulp.src('src/js/**/*.js')
+    .pipe(react())
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'))
     .pipe(concat('main.js'))
