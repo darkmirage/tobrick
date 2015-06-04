@@ -86,21 +86,23 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
   };
 
   self.ditherImage = function() {
-    var display_box = _cloneImage();
-    self.cachedResults[self.getSizeKey()] = display_box;
+    setTimeout(function() {
+      var display_box = _cloneImage();
+      self.cachedResults[self.getSizeKey()] = display_box;
 
-    var options = {
-        'step': kBlockSize,
-        'className': 'tmp-image-' + self.getSizeKey(),
-        'palette': self.palette,
-        'algorithm': 'ordered'
-    };
+      var options = {
+          'step': kBlockSize,
+          'className': 'tmp-image-' + self.getSizeKey(),
+          'palette': self.palette,
+          'algorithm': 'ordered'
+      };
 
-    display_box.css("visibility", "hidden");
-    new DitherJS('.tmp-image-' + self.getSizeKey(), options, function() {
-      display_box.css("visibility", "visible");
-      _resetZoom(display_box);
-    });
+      display_box.css("visibility", "hidden");
+      new DitherJS('.tmp-image-' + self.getSizeKey(), options, function() {
+        display_box.css("visibility", "visible");
+        _resetZoom(display_box);
+      });
+    }, 0);
   };
 
   self.getSizeKey = function() {
@@ -108,7 +110,10 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
   };
 
   self.changeSize = function(num_vertical_blocks) {
-    self.cachedResults[self.getSizeKey()].hide();
+    var current = self.cachedResults[self.getSizeKey()];
+    if (current) {
+      current.hide();
+    }
     self.numVerticalBlocks = num_vertical_blocks;
 
     if (self.getSizeKey() in self.cachedResults) {
@@ -120,4 +125,7 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     }
   };
 
+  self.destroy = function() {
+    $('.bricker-display-box').remove();
+  };
 }

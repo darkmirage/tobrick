@@ -3,5 +3,6 @@
 /* exported Globals */
 
 var Globals = {
-  blockSize: 16
+  blockSize: 16,
+  maxHeight: 200
 };
