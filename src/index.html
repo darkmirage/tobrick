@@ -40,37 +40,13 @@
   <canvas id="bricker-scratch-canvas"></canvas>
 </div>
 
-
-
 </body>
 
 <script src="js/main.js"></script>
+
 <script>
-
-function fetchCSV(csv_url, callback) {
-  $.ajax({
-    type: 'GET',
-    url: csv_url,
-    dataType: 'text',
-    success: function(csv_text) {
-      colors = new Colors(csv_text);
-      console.log('Successfully fetched colors CSV (', csv_url, ')');
-      callback(colors);
-    }
-  });
-};
-
 $(document).ready(function() {
-  var img = $('.bricker-original');
-
-  fetchCSV("csv/lego.csv", function(colors) {
-    window.bricker = new Bricker(img, colors, 30, true);
-    bricker.ditherImage();
-
-
-    createToolbar(colors, 'toolbar');
-  });
-
+  bricker = new BrickerApp($('.bricker-original'), "csv/lego.csv", 'toolbar');
 });
 </script>
 

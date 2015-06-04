@@ -4,19 +4,20 @@
 
 /* global $: false */
 /* global DitherJS: false */
+/* global Globals: false */
 
 
-function Bricker(original_image, colors, num_vertical_blocks, stack_mode) {
+function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
   var self = this;
-  var kOrigImage = original_image;
-  var kBlockSize = 16;
+  var kOrigImage = $(original_image);
+  var kBlockSize = Globals.blockSize;
   var kStretch = 9.6 / 7.8;
   var kScratchCanvas = $('#bricker-scratch-canvas');
   var kScratchImg = $('#bricker-scratch-img');
   var kStackMode = stack_mode;
 
   self.numVerticalBlocks = num_vertical_blocks;
-  self.colors = colors;
+  self.palette = palette;
   self.cachedResults = {};
 
   var _cropImage = function() {
@@ -91,10 +92,9 @@ function Bricker(original_image, colors, num_vertical_blocks, stack_mode) {
     var options = {
         'step': kBlockSize,
         'className': 'tmp-image-' + self.getSizeKey(),
-        'palette': self.colors.getDefaultPalette(),
+        'palette': self.palette,
         'algorithm': 'ordered'
     };
-
 
     display_box.css("visibility", "hidden");
     new DitherJS('.tmp-image-' + self.getSizeKey(), options, function() {

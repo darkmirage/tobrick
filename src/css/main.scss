@@ -28,3 +28,17 @@
   height: 0;
   overflow: hidden;
 }
+
+.toolbar-color-entry {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  border: 2px solid #fff;
+  margin: 5px;
+  box-shadow: 0 0 5px #999;
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid #444 !important;
+}

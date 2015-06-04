@@ -16,6 +16,10 @@ function Colors(csv_text) {
     }
     line = null;
 
+    self.getRGBString = function() {
+      return 'rgba(' + self.r + ',' + self.g + ',' + self.b + ',1.0)';
+    };
+
     self.getRGB = function() {
       return [self.r, self.g, self.b];
     };
@@ -36,11 +40,22 @@ function Colors(csv_text) {
   }
   lines = null;
 
-  self.getDefaultPalette = function() {
-    var palette = [];
+  self.getDefaultIDs = function() {
+    var ids = [];
     for (var i = 0; i < self.rows.length; i++) {
       var color = self.rows[i];
       if (color.isDefault()) {
+        ids.push(color.id);
+      }
+    }
+    return ids;
+  };
+
+  self.getPalette = function(ids) {
+    var palette = [];
+    for (var i = 0; i < self.rows.length; i++) {
+      var color = self.rows[i];
+      if (ids.indexOf(color.id) !== -1) {
         palette.push(color.getRGB());
       }
     }
