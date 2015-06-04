@@ -47,7 +47,10 @@
 
 <script>
 $(document).ready(function() {
-  bricker = new BrickerApp($('.bricker-original'), "csv/lego.csv", 'toolbar');
+  var img = $('.bricker-original');
+  img[0].onload = function() {
+    bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar');
+  };
 });
 </script>
 
