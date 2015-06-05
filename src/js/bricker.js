@@ -28,13 +28,17 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     var new_width = Math.floor((src_width / (src_height * compression)) * (self.numVerticalBlocks)) * Globals.blockSize;
 
     var canvas = kScratchCanvas[0];
-
+    var context = canvas.getContext('2d');
     canvas.width = new_width;
     canvas.height = new_height;
 
+    // Force fill background white to support images with transparency
+    context.fillStyle = '#ffffff';
+    context.fillRect(0, 0, new_width, new_height);
+
     // Seems to work better with some arbitrary offsets... Not sure if it's problem with DitherJS
-    var offset = 5;
-    canvas.getContext("2d").drawImage(kOrigImage[0], offset, offset, src_width, src_height, 0, 0, new_width, new_height);
+    var offset = 4;
+    context.drawImage(kOrigImage[0], offset, offset, src_width, src_height, 0, 0, new_width, new_height);
 
     // Not sure if there's a race condition here
     kScratchImg[0].src = canvas.toDataURL('image/png');
