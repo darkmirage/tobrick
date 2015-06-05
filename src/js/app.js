@@ -45,7 +45,10 @@ var ColorEntry = React.createClass({
     var divStyle = {
       backgroundColor: this.props.color.getRGBString()
     };
-    var class_name = this.state.isSelected ? "toolbar-color-entry selected" : "toolbar-color-entry";
+    var class_name = "toolbar-color-entry";
+    if (this.state.isSelected) {
+      class_name += " toolbar-color-entry-selected";
+    }
     return (
       <div className={class_name}
            onClick={this.toggle}

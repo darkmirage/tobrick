@@ -1,3 +1,5 @@
+/* Main display */
+
 .bricker-original {
   max-width: 100%;
   visibility: hidden;
@@ -23,14 +25,20 @@
   visibility: hidden;
 }
 
-.tmp-image {
-  visibility: hidden;
+/* Thumbnails */
+
+.bricker-thumbnail {
+  height: 100px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  margin: 3px;
 }
 
-.hide-stuff {
-  height: 0;
-  overflow: hidden;
+.bricker-thumbnail:hover {
+  border: 2px solid #444;
 }
+
+/* Toolbar */
 
 .toolbar-color-entry {
   width: 40px;
@@ -46,13 +54,9 @@
   opacity: 1.0;
 }
 
-.selected {
+.toolbar-color-entry-selected {
   border: 2px solid #444 !important;
   opacity: 1.0;
-}
-
-.loading-indicator {
-  height: 200px;
 }
 
 .toolbar-block-height {
@@ -68,13 +72,13 @@
   text-align: center;
 }
 
-.bricker-thumbnail {
-  height: 100px;
-  cursor: pointer;
-  border: 2px solid #fff;
-  margin: 3px;
+/* Misc */
+
+.hide-stuff {
+  height: 0;
+  overflow: hidden;
 }
 
-.bricker-thumbnail:hover {
-  border: 2px solid #444;
+.loading-indicator {
+  height: 200px;
 }
