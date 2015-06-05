@@ -8,7 +8,7 @@
 /* global Globals: false */
 /* global React: false */
 
-function BrickerApp(img, csv_url, id, thumbnails, display_box_selector) {
+function BrickerApp(img, csv_url, id, thumbnails) {
 
 // Thumbnails
 //=================================================================================================
@@ -33,8 +33,8 @@ var Thumbnails = React.createClass({
       );
     });
     return (
-      <div>
-        <div>Try out the preset images:</div>
+      <div className="toolbar-section">
+        <div className="toolbar-label">Try out the preset images</div>
         {thumbnailNodes}
       </div>
     );
@@ -50,9 +50,12 @@ var HeightField = React.createClass({
   },
   render: function() {
     return (
-      <div className="toolbar-block-height">
-        <input type="text" value={this.props.defaultValue} onChange={this.onChange}></input>
-        <span> blocks high</span>
+      <div className="toolbar-section">
+        <div className="toolbar-label">How tall should the mosaic be?</div>
+        <div className="toolbar-block-height">
+          <input type="text" value={this.props.defaultValue} onChange={this.onChange}></input>
+          <span> blocks high</span>
+        </div>
       </div>
     );
   }
@@ -99,8 +102,11 @@ var ColorPicker = React.createClass({
       );
     });
     return (
-      <div className="toolbar-color-list">
-        {colorNodes}
+      <div className="toolbar-section">
+        <div className="toolbar-label">Pick the block colors you want to incorporate</div>
+        <div className="toolbar-color-list">
+          {colorNodes}
+        </div>
       </div>
     );
   }
@@ -161,7 +167,7 @@ var App = React.createClass({
     return height > Globals.defaultHeight ? Globals.defaultHeight : height;
   },
   changeImage: function(src) {
-    $(this.props.displayBoxSelector).remove();
+    $(Globals.displayBoxSelector).remove();
     this.props.image[0].src = src;
   },
   updateHeight: function(height) {
@@ -209,7 +215,7 @@ var App = React.createClass({
 // Initialize
 //=================================================================================================
 React.render(
-  <App colorsURL={csv_url} image={img} thumbnails={thumbnails} displayBoxSelector={display_box_selector} />,
+  <App colorsURL={csv_url} image={img} thumbnails={thumbnails} />,
   document.getElementById(id)
 );
 

@@ -10,11 +10,10 @@
 function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
   var self = this;
   var kOrigImage = $(original_image);
-  var kBlockSize = Globals.blockSize;
-  var kStretch = 9.6 / 7.8;
   var kScratchCanvas = $('#bricker-scratch-canvas');
   var kScratchImg = $('#bricker-scratch-img');
   var kStackMode = stack_mode;
+  var kTmpPrefix = 'tmp-image-';
 
   self.numVerticalBlocks = num_vertical_blocks;
   self.palette = palette;
@@ -24,9 +23,9 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     var src_width = kOrigImage[0].naturalWidth;
     var src_height = kOrigImage[0].naturalHeight;
 
-    var new_height = self.numVerticalBlocks * kBlockSize;
-    var compression = kStackMode ? 1/kStretch : 1;
-    var new_width = Math.floor((src_width / (src_height * compression)) * (self.numVerticalBlocks)) * kBlockSize;
+    var new_height = self.numVerticalBlocks * Globals.blockSize;
+    var compression = kStackMode ? 1/Globals.blockAspectRatio : 1;
+    var new_width = Math.floor((src_width / (src_height * compression)) * (self.numVerticalBlocks)) * Globals.blockSize;
 
     var canvas = kScratchCanvas[0];
 
@@ -34,7 +33,7 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     canvas.height = new_height;
 
     // Seems to work better with some arbitrary offsets... Not sure if it's problem with DitherJS
-    var offset = 4;
+    var offset = 5;
     canvas.getContext("2d").drawImage(kOrigImage[0], offset, offset, src_width, src_height, 0, 0, new_width, new_height);
 
     // Not sure if there's a race condition here
@@ -46,18 +45,18 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     display_box.appendTo(kOrigImage.parent());
 
     display_box.addClass(self.getSizeKey());
-    display_box.addClass('bricker-display-box');
+    display_box.addClass(Globals.displayBoxClass);
 
     _cropImage();
 
     var tmp = kScratchImg.clone();
     tmp.removeAttr('id');
-    tmp.addClass('bricker-display-box-image');
+    tmp.addClass(Globals.displayBoxImageClass);
 
     // Background comparison image
     tmp.clone().appendTo(display_box);
 
-    tmp.addClass('tmp-image-' + self.getSizeKey());
+    tmp.addClass(kTmpPrefix + self.getSizeKey());
     tmp.appendTo(display_box);
 
     return display_box;
@@ -70,9 +69,9 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     if (kStackMode) {
       var width = canvas.width();
       canvas.width(width);
-      canvas.height(canvas.height() * kStretch);
+      canvas.height(canvas.height() * Globals.blockAspectRatio);
       img.width(width);
-      img.height(img.height() * kStretch);
+      img.height(img.height() * Globals.blockAspectRatio);
     }
 
     if (canvas.width() <= kOrigImage.width()) {
@@ -93,14 +92,14 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
       self.cachedResults[self.getSizeKey()] = display_box;
 
       var options = {
-          'step': kBlockSize,
-          'className': 'tmp-image-' + self.getSizeKey(),
+          'step': Globals.blockSize,
+          'className': kTmpPrefix + self.getSizeKey(),
           'palette': self.palette,
           'algorithm': 'ordered'
       };
 
       display_box.css("visibility", "hidden");
-      new DitherJS('.tmp-image-' + self.getSizeKey(), options, function() {
+      new DitherJS('.' + kTmpPrefix + self.getSizeKey(), options, function() {
         display_box.css("visibility", "visible");
         _resetZoom(display_box);
       });
@@ -128,6 +127,6 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
   };
 
   self.destroy = function() {
-    $('.bricker-display-box').remove();
+    $(Globals.displayBoxSelector).remove();
   };
 }

@@ -1,5 +1,10 @@
 /* Main display */
 
+.bricker-main-container {
+  margin-top: 20px;
+  position: relative;
+}
+
 .bricker-original {
   max-width: 100%;
   visibility: hidden;
@@ -59,8 +64,16 @@
   opacity: 1.0;
 }
 
+.toolbar-section {
+  margin-top: 20px;
+}
+
+.toolbar-label {
+  margin-bottom: 10px;
+}
+
 .toolbar-block-height {
-  margin: 20px;
+  margin-left: 20px;
 }
 
 .toolbar-block-height input {

@@ -19,7 +19,9 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <h1>Image to Brick</h1>
+    <div class="page-header">
+      <h1>Image to Brick <small>generates LEGO mosaics and build instructions from any picture</small></h1>
+    </div>
   </div>
 
   <div class="col-sm-12
@@ -29,8 +31,10 @@
   <div class="col-sm-12
               col-md-10 col-md-offset-1
               col-lg-8 col-lg-offset-0">
-    <div class="loading-indicator">Generating...</div>
-    <img src="img/thirdparty/starry-night.jpg" class="bricker-original">
+    <div class="bricker-main-container">
+      <div class="loading-indicator">Generating...</div>
+      <img src="img/thirdparty/starry-night.jpg" class="bricker-original">
+    </div>
   </div>
 </div>
 
@@ -57,7 +61,7 @@ $(document).ready(function() {
 
   var img = $('.bricker-original');
   img.one('load', function() {
-    bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar', thumbnails, '.bricker-display-box');
+    bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar', thumbnails);
   });
 });
 </script>
