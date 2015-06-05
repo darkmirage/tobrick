@@ -10,6 +10,8 @@
 
 function BrickerApp(img, csv_url, id, thumbnails) {
 
+console.log("Initializing BrickerApp");
+
 // Thumbnails
 //=================================================================================================
 var Thumbnail = React.createClass({
@@ -36,6 +38,35 @@ var Thumbnails = React.createClass({
       <div className="toolbar-section">
         <div className="toolbar-label">Try out the preset images</div>
         {thumbnailNodes}
+      </div>
+    );
+  }
+});
+
+// Image uploader
+//=================================================================================================
+var Uploader = React.createClass({
+  onChange: function(event) {
+    var self = this;
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      self.props.data.handleChangeImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  },
+  render: function() {
+    return (
+      <div className="toolbar-section">
+        <div className="toolbar-label">Or upload your own</div>
+        <div className="tooblar-upload">
+          <span className="btn btn-lg btn-default btn-file">
+            Upload image<input type="file" onChange={this.onChange}></input>
+          </span>
+        </div>
       </div>
     );
   }
@@ -205,6 +236,7 @@ var App = React.createClass({
     return (
       <div>
         <Thumbnails data={data} />
+        <Uploader data={data} />
         <HeightField data={data} defaultValue={this.state.numVerticalBlocks} />
         <ColorPicker data={data} />
       </div>
