@@ -24,14 +24,6 @@
 
   <div class="col-sm-12
               col-lg-3">
-    <div>
-      <div>Try out the preset images:</div>
-      <img src="img/thirdparty/starry-night.jpg" class="bricker-thumbnail" title="The Starry Night">
-      <img src="img/thirdparty/kanagawa.jpg" class="bricker-thumbnail" title="The Great Wave off Kanagawa">
-      <img src="img/thirdparty/lenna.png" class="bricker-thumbnail" title="Lenna">
-      <img src="img/thirdparty/lego.png" class="bricker-thumbnail" title="Lego">
-      <img src="img/thirdparty/stanford.png" class="bricker-thumbnail" title="Stanford">
-    </div>
     <div id="toolbar"></div>
   </div>
   <div class="col-sm-12
@@ -55,15 +47,17 @@
 
 <script>
 $(document).ready(function() {
+  var thumbnails = [
+    { src: "img/thirdparty/starry-night.jpg", title: "The Starry Night" },
+    { src: "img/thirdparty/kanagawa.jpg", title: "The Great Wave off Kanagawa" },
+    { src: "img/thirdparty/lenna.png", title: "Lenna" },
+    { src: "img/thirdparty/lego.png", title: "Lego" },
+    { src: "img/thirdparty/stanford.png", title: "Stanford" }
+  ];
+
   var img = $('.bricker-original');
-
-  $('.bricker-thumbnail').on('click', function() {
-    $('.bricker-display-box').remove();
-    img[0].src = this.src;
-  });
-
   img.one('load', function() {
-    bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar');
+    bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar', thumbnails, '.bricker-display-box');
   });
 });
 </script>

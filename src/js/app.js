@@ -8,7 +8,38 @@
 /* global Globals: false */
 /* global React: false */
 
-function BrickerApp(img, csv_url, id) {
+function BrickerApp(img, csv_url, id, thumbnails, display_box_selector) {
+
+// Thumbnails
+//=================================================================================================
+var Thumbnail = React.createClass({
+  onClick: function(event) {
+    var src = event.target.src;
+    this.props.data.handleChangeImage(src);
+  },
+  render: function() {
+    return (
+      <img src={this.props.thumbnail.src} className="bricker-thumbnail" title={this.props.thumbnail.title} onClick={this.onClick} />
+    );
+  }
+});
+
+var Thumbnails = React.createClass({
+  render: function() {
+    var self = this;
+    var thumbnailNodes = this.props.data.thumbnails.map(function (thumbnail) {
+      return (
+        <Thumbnail key={thumbnail.title} thumbnail={thumbnail} data={self.props.data}/>
+      );
+    });
+    return (
+      <div>
+        <div>Try out the preset images:</div>
+        {thumbnailNodes}
+      </div>
+    );
+  }
+});
 
 // HeightField
 //=================================================================================================
@@ -106,6 +137,13 @@ var App = React.createClass({
       self.resetBricker();
     });
   },
+  initializeColors: function(colors) {
+    var self = this;
+    this.setState({ colors: colors });
+    setTimeout(function() {
+      self.updatePalette(colors.getDefaultIDs());
+    }, 1);
+  },
   resetBricker: function() {
     if (this.state.bricker) {
       this.state.bricker.destroy();
@@ -121,6 +159,10 @@ var App = React.createClass({
   getDefaultHeight: function() {
     var height = Math.floor(this.props.image[0].naturalHeight / (Globals.blockSize / 4));
     return height > Globals.defaultHeight ? Globals.defaultHeight : height;
+  },
+  changeImage: function(src) {
+    $(this.props.displayBoxSelector).remove();
+    this.props.image[0].src = src;
   },
   updateHeight: function(height) {
     this.state.bricker.changeSize(height);
@@ -145,19 +187,18 @@ var App = React.createClass({
       this.updatePalette(ids);
     }
   },
-  initializeColors: function(colors) {
-    this.setState({ colors: colors });
-    this.updatePalette(colors.getDefaultIDs());
-  },
   render: function() {
     var data = {
+      thumbnails: this.props.thumbnails,
       colors: this.state.colors.rows,
       handleAddToPalette: this.addToPalette,
       handleRemoveFromPalette: this.removeFromPalette,
-      handleUpdateHeight: this.updateHeight
+      handleUpdateHeight: this.updateHeight,
+      handleChangeImage: this.changeImage
     };
     return (
       <div>
+        <Thumbnails data={data} />
         <HeightField data={data} defaultValue={this.state.numVerticalBlocks} />
         <ColorPicker data={data} />
       </div>
@@ -168,7 +209,7 @@ var App = React.createClass({
 // Initialize
 //=================================================================================================
 React.render(
-  <App colorsURL={csv_url} image={img} />,
+  <App colorsURL={csv_url} image={img} thumbnails={thumbnails} displayBoxSelector={display_box_selector} />,
   document.getElementById(id)
 );
 
