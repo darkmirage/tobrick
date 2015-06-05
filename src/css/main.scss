@@ -38,12 +38,17 @@
   display: inline-block;
   border: 2px solid #fff;
   margin: 5px;
-  box-shadow: 0 0 5px #999;
   cursor: pointer;
+  opacity: 0.5;
+}
+
+.toolbar-color-entry:hover {
+  opacity: 1.0;
 }
 
 .selected {
   border: 2px solid #444 !important;
+  opacity: 1.0;
 }
 
 .loading-indicator {
@@ -61,4 +66,15 @@
   font-size: 30px;
   background: #ddd;
   text-align: center;
+}
+
+.bricker-thumbnail {
+  height: 100px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  margin: 3px;
+}
+
+.bricker-thumbnail:hover {
+  border: 2px solid #444;
 }

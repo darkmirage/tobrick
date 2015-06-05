@@ -33,7 +33,9 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     canvas.width = new_width;
     canvas.height = new_height;
 
-    canvas.getContext("2d").drawImage(kOrigImage[0], 0, 0, src_width, src_height, 0, 0, new_width, new_height);
+    // Seems to work better with some arbitrary offsets... Not sure if it's problem with DitherJS
+    var offset = 4;
+    canvas.getContext("2d").drawImage(kOrigImage[0], offset, offset, src_width, src_height, 0, 0, new_width, new_height);
 
     // Not sure if there's a race condition here
     kScratchImg[0].src = canvas.toDataURL('image/png');
@@ -102,7 +104,7 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
         display_box.css("visibility", "visible");
         _resetZoom(display_box);
       });
-    }, 0);
+    }, 1);
   };
 
   self.getSizeKey = function() {

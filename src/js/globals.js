@@ -4,5 +4,6 @@
 
 var Globals = {
   blockSize: 16,
-  maxHeight: 200
+  maxHeight: 200,
+  defaultHeight: 90
 };

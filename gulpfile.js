@@ -59,9 +59,9 @@ gulp.task('csv', function() {
     .pipe(notify({ message: 'CSV task complete' }));
 });
 
-gulp.task('tmp-img', function() {
-  return gulp.src('tmp/**/*')
-    .pipe(gulp.dest('public/img/tmp'))
+gulp.task('thirdparty-img', function() {
+  return gulp.src('thirdparty/**/*')
+    .pipe(gulp.dest('public/img/thirdparty'))
     .pipe(notify({ message: 'Test images task complete' }));
 });
 
@@ -76,7 +76,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('css', 'js', 'img', 'csv', 'tmp-img', 'html', 'lib');
+    gulp.start('css', 'js', 'img', 'csv', 'thirdparty-img', 'html', 'lib');
 });
 
 gulp.task('build', ['clean'], function() {
@@ -97,7 +97,7 @@ gulp.task('watch', function() {
 
   // Watch image files
   gulp.watch('src/img/**/*', ['img']);
-  gulp.watch('tmp/**/*', ['tmp-img']);
+  gulp.watch('thirdparty/**/*', ['thirdparty-img']);
 
   // Watch .csv files
   gulp.watch('src/csv/**/*', ['csv']);

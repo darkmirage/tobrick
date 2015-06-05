@@ -98,26 +98,34 @@ var App = React.createClass({
         self.initializeColors(colors);
       }
     });
+    this.props.image.on('load', function() {
+      self.setState({ numVerticalBlocks: self.getDefaultHeight() });
+      self.resetBricker();
+    });
+  },
+  resetBricker: function() {
+    if (this.state.bricker) {
+      this.state.bricker.destroy();
+    }
+    var palette = this.state.colors.getPalette(this.state.selectedColors);
+    var bricker = new Bricker(this.props.image,
+                              palette,
+                              this.state.numVerticalBlocks,
+                              this.state.stackMode);
+    bricker.ditherImage();
+    this.setState({ bricker: bricker });
   },
   getDefaultHeight: function() {
-    var height = Math.floor(this.props.image[0].naturalHeight / Globals.blockSize);
-    return height > 40 ? 40 : height;
+    var height = Math.floor(this.props.image[0].naturalHeight / (Globals.blockSize / 4));
+    return height > Globals.defaultHeight ? Globals.defaultHeight : height;
   },
   updateHeight: function(height) {
     this.state.bricker.changeSize(height);
     this.setState({ numVerticalBlocks: height });
   },
   updatePalette: function(selected_ids) {
-    var palette = this.state.colors.getPalette(selected_ids);
-    if (this.state.bricker) {
-      this.state.bricker.destroy();
-    }
-    var bricker = new Bricker(this.props.image,
-                              palette,
-                              this.state.numVerticalBlocks,
-                              this.state.stackMode);
-    bricker.ditherImage();
-    this.setState({ selectedColors: selected_ids, bricker: bricker });
+    this.setState({ selectedColors: selected_ids });
+    this.resetBricker();
   },
   addToPalette: function(selected_id) {
     var ids = this.state.selectedColors;

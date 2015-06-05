@@ -24,13 +24,21 @@
 
   <div class="col-sm-12
               col-lg-3">
+    <div>
+      <div>Try out the preset images:</div>
+      <img src="img/thirdparty/starry-night.jpg" class="bricker-thumbnail" title="The Starry Night">
+      <img src="img/thirdparty/kanagawa.jpg" class="bricker-thumbnail" title="The Great Wave off Kanagawa">
+      <img src="img/thirdparty/lenna.png" class="bricker-thumbnail" title="Lenna">
+      <img src="img/thirdparty/lego.png" class="bricker-thumbnail" title="Lego">
+      <img src="img/thirdparty/stanford.png" class="bricker-thumbnail" title="Stanford">
+    </div>
     <div id="toolbar"></div>
   </div>
   <div class="col-sm-12
               col-md-10 col-md-offset-1
               col-lg-8 col-lg-offset-0">
     <div class="loading-indicator">Generating...</div>
-    <img src="img/tmp/starry-night.jpg" class="bricker-original">
+    <img src="img/thirdparty/starry-night.jpg" class="bricker-original">
   </div>
 </div>
 
@@ -48,9 +56,15 @@
 <script>
 $(document).ready(function() {
   var img = $('.bricker-original');
-  img[0].onload = function() {
+
+  $('.bricker-thumbnail').on('click', function() {
+    $('.bricker-display-box').remove();
+    img[0].src = this.src;
+  });
+
+  img.one('load', function() {
     bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar');
-  };
+  });
 });
 </script>
 
