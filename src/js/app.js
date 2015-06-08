@@ -17,7 +17,8 @@ console.log("Initializing BrickerApp");
 var Thumbnail = React.createClass({
   onClick: function(event) {
     var src = event.target.src;
-    this.props.data.handleChangeImage(src);
+    var use_colors = this.props.thumbnail.colors;
+    this.props.data.handleChangeImage(src, use_colors);
   },
   render: function() {
     return (
@@ -151,23 +152,19 @@ var HeightField = React.createClass({
 // Color Picker
 //=================================================================================================
 var ColorEntry = React.createClass({
-  getInitialState: function() {
-    return { isSelected: this.props.color.isDefault() };
-  },
   toggle: function() {
-    if (this.state.isSelected) {
+    if (this.props.isSelected) {
       this.props.data.handleRemoveFromPalette(this.props.color.id);
     } else {
       this.props.data.handleAddToPalette(this.props.color.id);
     }
-    this.setState({ isSelected: !this.state.isSelected });
   },
   render: function() {
     var divStyle = {
       backgroundColor: this.props.color.getRGBString()
     };
     var class_name = "toolbar-color-entry";
-    if (this.state.isSelected) {
+    if (this.props.isSelected) {
       class_name += " toolbar-color-entry-selected";
     }
     return (
@@ -183,9 +180,11 @@ var ColorEntry = React.createClass({
 var ColorPicker = React.createClass({
   render: function() {
     var self = this;
+    var selected_colors = this.props.selectedColors;
     var colorNodes = this.props.colors.map(function (color) {
+      var selected = selected_colors.indexOf(color.id) !== -1;
       return (
-        <ColorEntry key={color.id} color={color} data={self.props.data}/>
+        <ColorEntry key={color.id} color={color} isSelected={selected} data={self.props.data}/>
       );
     });
     return (
@@ -194,6 +193,7 @@ var ColorPicker = React.createClass({
         <div className="toolbar-color-list">
           {colorNodes}
         </div>
+        <a className="btn btn-default" onClick={this.props.data.handleReset}>Show me</a>
       </div>
     );
   }
@@ -238,7 +238,8 @@ var App = React.createClass({
     var self = this;
     this.setState({ colors: colors });
     setTimeout(function() {
-      self.updatePalette(colors.getDefaultIDs());
+      self.setState({ selectedColors: colors.getDefaultIDs() });
+      self.resetBricker();
     }, 1);
   },
   resetBricker: function() {
@@ -264,8 +265,13 @@ var App = React.createClass({
     var height = Math.floor(this.props.image[0].naturalHeight / (Globals.blockSize / 4));
     return height > Globals.defaultHeight ? Globals.defaultHeight : height;
   },
-  changeImage: function(src) {
+  changeImage: function(src, use_colors) {
     $(Globals.displayBoxSelector).remove();
+    console.log(use_colors);
+    if (!use_colors) {
+      use_colors = this.state.colors.getDefaultIDs();
+    }
+    this.setState({ selectedColors: use_colors });
     this.props.image[0].src = src;
   },
   refreshInstructions: function() {
@@ -283,15 +289,11 @@ var App = React.createClass({
     });
     this.setState({ numVerticalBlocks: height });
   },
-  updatePalette: function(selected_ids) {
-    this.setState({ selectedColors: selected_ids });
-    this.resetBricker();
-  },
   addToPalette: function(selected_id) {
     var ids = this.state.selectedColors;
     if (ids.indexOf(selected_id) === -1) {
       ids.push(selected_id);
-      this.updatePalette(ids);
+      this.setState({ selectedColors: ids });
     }
   },
   removeFromPalette: function(selected_id) {
@@ -299,7 +301,7 @@ var App = React.createClass({
     var index = ids.indexOf(selected_id);
     if (index !== -1) {
       ids.splice(index, 1);
-      this.updatePalette(ids);
+      this.setState({ selectedColors: ids });
     }
   },
   render: function() {
@@ -307,6 +309,7 @@ var App = React.createClass({
       ready: this.state.ready,
       handleAddToPalette: this.addToPalette,
       handleRemoveFromPalette: this.removeFromPalette,
+      handleReset: this.resetBricker,
       handleUpdateHeight: this.updateHeight,
       handleChangeImage: this.changeImage
     };
@@ -322,7 +325,8 @@ var App = React.createClass({
         <Instruction  data={data}
                       instructions={this.state.instructions} />
         <ColorPicker  data={data}
-                      colors={this.state.colors.rows} />
+                      colors={this.state.colors.rows}
+                      selectedColors={this.state.selectedColors} />
       </div>
     );
   }
