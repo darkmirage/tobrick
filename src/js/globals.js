@@ -7,7 +7,7 @@ var Globals = {
   blockRealHeight: 9.6,
   blockRealWidth: 7.8,
   maxHeight: 200,
-  defaultHeight: 90,
+  defaultHeight: 120,
   displayBoxClass: 'bricker-display-box',
   displayBoxImageClass: 'bricker-display-box-image',
   init: function() {

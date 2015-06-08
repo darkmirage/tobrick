@@ -181,7 +181,7 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
     return color_matrix;
   };
 
-  var _fitBricksInChunk = function(brick_types, num_blocks, color) {
+  var _fitBricksInChunk = function(brick_types, num_blocks, color, brick_counts) {
     var chunk = [];
     var n = 0;
     for (var i = 0; i < brick_types.length; i++) {
@@ -192,6 +192,11 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
         } else {
           chunk.push(brick);
         }
+        if (!(brick in brick_counts)) {
+          brick_counts[brick] = 0;
+        }
+        brick_counts[brick]++;
+        brick_counts.total++;
         num_blocks -= brick.dimension;
       }
     }
@@ -211,10 +216,9 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
     }
 
     var color_matrix = _getColorMatrix(box);
-    var total_num = 0;
-
-    // Do stuff with matrix here
     var brick_matrix = [];
+    var brick_counts = { total: 0 };
+
     for (var i = 0; i < color_matrix.length; i++) {
       var bricks = [];
       var row = color_matrix[i];
@@ -229,13 +233,12 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
         }
 
         var num_blocks = j - start;
-        var chunk = _fitBricksInChunk(brick_types, num_blocks, current_color);
+        var chunk = _fitBricksInChunk(brick_types, num_blocks, current_color, brick_counts);
         bricks = bricks.concat(chunk);
       }
-      total_num += bricks.length;
       brick_matrix.push(bricks);
     }
-    console.log("Number of bricks: ", total_num);
-    return { bricks: brick_matrix, numBricks: total_num };
+    console.log("Number of bricks: ", brick_counts.total);
+    return { bricks: brick_matrix, brickCounts: brick_counts };
   };
 }

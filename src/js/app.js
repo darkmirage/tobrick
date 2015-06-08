@@ -84,10 +84,11 @@ var Instruction = React.createClass({
     if (!this.props.data.ready) {
       class_name += ' disabled';
     }
+    var totalCount = this.props.instructions ? this.props.instructions.brickCounts.total : 0;
     return (
       <div className="toolbar-section">
         <div>
-          Number of bricks: {this.props.instructions.numBricks}
+          Number of bricks: {totalCount}
         </div>
         <div className="toolbar-label">Build instructions</div>
         <a href="#" onClick={this.onClickShow} className={class_name}>Show</a>
@@ -213,7 +214,7 @@ var App = React.createClass({
       bricker: null,
       mosaicDimension: { width: 0, height: 0 },
       ready: false,
-      instructions: []
+      instructions: null
     };
   },
   componentDidMount: function() {
