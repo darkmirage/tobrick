@@ -72,7 +72,31 @@ var Uploader = React.createClass({
   }
 });
 
-// HeightField
+
+// Instruction options
+//=================================================================================================
+var Instruction = React.createClass({
+  onClickShow: function(event) {
+    event.preventDefault();
+  },
+  render: function() {
+    var class_name = 'btn btn-default';
+    if (!this.props.data.ready) {
+      class_name += ' disabled';
+    }
+    return (
+      <div className="toolbar-section">
+        <div>
+          Number of bricks: {this.props.instructions.numBricks}
+        </div>
+        <div className="toolbar-label">Build instructions</div>
+        <a href="#" onClick={this.onClickShow} className={class_name}>Show</a>
+      </div>
+    );
+  }
+});
+
+// Display height
 //=================================================================================================
 var HeightField = React.createClass({
   getInitialState: function() {
@@ -183,10 +207,13 @@ var App = React.createClass({
     return {
       colors: { rows: [] },
       selectedColors: [],
+      selectedBrickTypes: [8, 4, 2, 1],
       numVerticalBlocks: this.getDefaultHeight(),
       stackMode: false,
       bricker: null,
-      mosaicDimension: { width: 0, height: 0 }
+      mosaicDimension: { width: 0, height: 0 },
+      ready: false,
+      instructions: []
     };
   },
   componentDidMount: function() {
@@ -218,15 +245,19 @@ var App = React.createClass({
     if (this.state.bricker) {
       this.state.bricker.destroy();
     }
-    var palette = this.state.colors.getPalette(this.state.selectedColors);
     var bricker = new Bricker(this.props.image,
-                              palette,
                               this.state.numVerticalBlocks,
+                              this.state.colors,
+                              this.state.selectedColors,
                               this.state.stackMode, function(dim) {
                                 self.setState({ mosaicDimension: dim });
                               });
-    bricker.ditherImage();
-    this.setState({ bricker: bricker });
+    self.setState({ ready: false });
+    bricker.ditherImage(function() {
+      self.refreshInstructions();
+      self.setState({ ready: true });
+    });
+    self.setState({ bricker: bricker });
   },
   getDefaultHeight: function() {
     var height = Math.floor(this.props.image[0].naturalHeight / (Globals.blockSize / 4));
@@ -236,8 +267,19 @@ var App = React.createClass({
     $(Globals.displayBoxSelector).remove();
     this.props.image[0].src = src;
   },
+  refreshInstructions: function() {
+    var bricker = this.state.bricker;
+    var brick_types = this.state.selectedBrickTypes;
+    var instructions = bricker.generateInstructions(brick_types);
+    this.setState({ instructions: instructions });
+  },
   updateHeight: function(height) {
-    this.state.bricker.changeSize(height);
+    var self = this;
+    self.setState({ ready: false });
+    this.state.bricker.changeSize(height, function() {
+      self.refreshInstructions();
+      self.setState({ ready: true });
+    });
     this.setState({ numVerticalBlocks: height });
   },
   updatePalette: function(selected_ids) {
@@ -261,6 +303,7 @@ var App = React.createClass({
   },
   render: function() {
     var data = {
+      ready: this.state.ready,
       handleAddToPalette: this.addToPalette,
       handleRemoveFromPalette: this.removeFromPalette,
       handleUpdateHeight: this.updateHeight,
@@ -275,6 +318,8 @@ var App = React.createClass({
                       dimension={this.state.mosaicDimension}
                       defaultValue={this.state.numVerticalBlocks}
                       stackMode={this.state.stackMode} />
+        <Instruction  data={data}
+                      instructions={this.state.instructions} />
         <ColorPicker  data={data}
                       colors={this.state.colors.rows} />
       </div>
