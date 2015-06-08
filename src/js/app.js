@@ -29,7 +29,7 @@ var Thumbnail = React.createClass({
 var Thumbnails = React.createClass({
   render: function() {
     var self = this;
-    var thumbnailNodes = this.props.data.thumbnails.map(function (thumbnail) {
+    var thumbnailNodes = this.props.thumbnails.map(function (thumbnail) {
       return (
         <Thumbnail key={thumbnail.title} thumbnail={thumbnail} data={self.props.data}/>
       );
@@ -75,6 +75,34 @@ var Uploader = React.createClass({
 // HeightField
 //=================================================================================================
 var HeightField = React.createClass({
+  getInitialState: function() {
+    return {
+      useMetric: true
+    };
+  },
+  _toFeet: function(x) {
+    var realFeet = ((x*0.393700) / 12);
+    var feet = Math.floor(realFeet);
+    var inches = Math.round((realFeet - feet) * 12);
+    return feet + '\u2032' + inches + '\u2033';
+  },
+  _getHeight: function() {
+    if (this.props.stackMode) {
+      return this.props.dimension.height * Globals.blockRealHeight / 10;
+    } else {
+      return this.props.dimension.height * Globals.blockRealWidth / 10;
+    }
+  },
+  _getWidth: function() {
+    return this.props.dimension.width * Globals.blockRealWidth / 10;
+  },
+  _printDimensions: function() {
+    if (this.state.useMetric) {
+      return this._getWidth().toFixed(1) + 'cm x ' + this._getHeight().toFixed(1) + 'cm';
+    } else {
+      return this._toFeet(this._getWidth()) + ' x ' + this._toFeet(this._getHeight());
+    }
+  },
   onChange: function(event) {
     var height = event.target.value;
     this.props.data.handleUpdateHeight(height);
@@ -86,6 +114,9 @@ var HeightField = React.createClass({
         <div className="toolbar-block-height">
           <input type="text" value={this.props.defaultValue} onChange={this.onChange}></input>
           <span> blocks high</span>
+        </div>
+        <div className="toolbar-dimensions">
+          Dimensions: {this._printDimensions()}
         </div>
       </div>
     );
@@ -127,7 +158,7 @@ var ColorEntry = React.createClass({
 var ColorPicker = React.createClass({
   render: function() {
     var self = this;
-    var colorNodes = this.props.data.colors.map(function (color) {
+    var colorNodes = this.props.colors.map(function (color) {
       return (
         <ColorEntry key={color.id} color={color} data={self.props.data}/>
       );
@@ -154,7 +185,8 @@ var App = React.createClass({
       selectedColors: [],
       numVerticalBlocks: this.getDefaultHeight(),
       stackMode: false,
-      bricker: null
+      bricker: null,
+      mosaicDimension: { width: 0, height: 0 }
     };
   },
   componentDidMount: function() {
@@ -182,6 +214,7 @@ var App = React.createClass({
     }, 1);
   },
   resetBricker: function() {
+    var self = this;
     if (this.state.bricker) {
       this.state.bricker.destroy();
     }
@@ -189,7 +222,9 @@ var App = React.createClass({
     var bricker = new Bricker(this.props.image,
                               palette,
                               this.state.numVerticalBlocks,
-                              this.state.stackMode);
+                              this.state.stackMode, function(dim) {
+                                self.setState({ mosaicDimension: dim });
+                              });
     bricker.ditherImage();
     this.setState({ bricker: bricker });
   },
@@ -226,8 +261,6 @@ var App = React.createClass({
   },
   render: function() {
     var data = {
-      thumbnails: this.props.thumbnails,
-      colors: this.state.colors.rows,
       handleAddToPalette: this.addToPalette,
       handleRemoveFromPalette: this.removeFromPalette,
       handleUpdateHeight: this.updateHeight,
@@ -235,10 +268,15 @@ var App = React.createClass({
     };
     return (
       <div>
-        <Thumbnails data={data} />
-        <Uploader data={data} />
-        <HeightField data={data} defaultValue={this.state.numVerticalBlocks} />
-        <ColorPicker data={data} />
+        <Thumbnails   data={data}
+                      thumbnails={this.props.thumbnails} />
+        <Uploader     data={data} />
+        <HeightField  data={data}
+                      dimension={this.state.mosaicDimension}
+                      defaultValue={this.state.numVerticalBlocks}
+                      stackMode={this.state.stackMode} />
+        <ColorPicker  data={data}
+                      colors={this.state.colors.rows} />
       </div>
     );
   }

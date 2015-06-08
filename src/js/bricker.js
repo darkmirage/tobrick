@@ -7,17 +7,25 @@
 /* global Globals: false */
 
 
-function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
+function Bricker(original_image, palette, num_vertical_blocks, stack_mode, size_callback) {
   var self = this;
   var kOrigImage = $(original_image);
   var kScratchCanvas = $('#bricker-scratch-canvas');
   var kScratchImg = $('#bricker-scratch-img');
   var kStackMode = stack_mode;
   var kTmpPrefix = 'tmp-image-';
+  var kCallback = size_callback;
 
   self.numVerticalBlocks = num_vertical_blocks;
   self.palette = palette;
   self.cachedResults = {};
+
+  var _returnSize = function(canvas) {
+    kCallback({
+      width: canvas.width / Globals.blockSize,
+      height: canvas.height / Globals.blockSize
+    });
+  };
 
   var _cropImage = function() {
     var src_width = kOrigImage[0].naturalWidth;
@@ -31,6 +39,7 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     var context = canvas.getContext('2d');
     canvas.width = new_width;
     canvas.height = new_height;
+    _returnSize(canvas);
 
     // Force fill background white to support images with transparency
     context.fillStyle = '#ffffff';
@@ -48,7 +57,7 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     var display_box = $('<div></div>');
     display_box.appendTo(kOrigImage.parent());
 
-    display_box.addClass(self.getSizeKey());
+    display_box.addClass(_getSizeKey());
     display_box.addClass(Globals.displayBoxClass);
 
     _cropImage();
@@ -60,7 +69,7 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     // Background comparison image
     tmp.clone().appendTo(display_box);
 
-    tmp.addClass(kTmpPrefix + self.getSizeKey());
+    tmp.addClass(kTmpPrefix + _getSizeKey());
     tmp.appendTo(display_box);
 
     return display_box;
@@ -90,39 +99,41 @@ function Bricker(original_image, palette, num_vertical_blocks, stack_mode) {
     img.height(new_height);
   };
 
+  var _getSizeKey = function() {
+    return "bricker-size-" + self.numVerticalBlocks;
+  };
+
   self.ditherImage = function() {
     setTimeout(function() {
       var display_box = _cloneImage();
-      self.cachedResults[self.getSizeKey()] = display_box;
+      self.cachedResults[_getSizeKey()] = display_box;
 
       var options = {
           'step': Globals.blockSize,
-          'className': kTmpPrefix + self.getSizeKey(),
+          'className': kTmpPrefix + _getSizeKey(),
           'palette': self.palette,
           'algorithm': 'ordered'
       };
 
       display_box.css("visibility", "hidden");
-      new DitherJS('.' + kTmpPrefix + self.getSizeKey(), options, function() {
+      new DitherJS('.' + kTmpPrefix + _getSizeKey(), options, function() {
         display_box.css("visibility", "visible");
         _resetZoom(display_box);
       });
     }, 1);
   };
 
-  self.getSizeKey = function() {
-    return "bricker-size-" + self.numVerticalBlocks;
-  };
-
   self.changeSize = function(num_vertical_blocks) {
-    var current = self.cachedResults[self.getSizeKey()];
-    if (current) {
-      current.hide();
+    var box = self.cachedResults[_getSizeKey()];
+    if (box) {
+      box.hide();
     }
     self.numVerticalBlocks = num_vertical_blocks;
 
-    if (self.getSizeKey() in self.cachedResults) {
-      self.cachedResults[self.getSizeKey()].show();
+    if (_getSizeKey() in self.cachedResults) {
+      box = self.cachedResults[_getSizeKey()];
+      box.show();
+      _returnSize($('canvas', box)[0]);
       return true;
     } else {
       self.ditherImage();
