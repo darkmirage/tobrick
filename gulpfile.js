@@ -1,5 +1,6 @@
 var browserify = require('browserify');
 var reactify = require('reactify');
+var browserSync = require('browser-sync').create();
 
 var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
@@ -14,7 +15,6 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
     streamify = require('gulp-streamify'),
-    livereload = require('gulp-livereload'),
     del = require('del'),
     react = require('gulp-react');
 
@@ -103,10 +103,13 @@ gulp.task('watch', function() {
   // Watch .csv files
   gulp.watch('src/csv/**/*', ['csv']);
 
-  // Create LiveReload server
-  livereload.listen();
+  // Create browserSync server
+  browserSync.init({
+    server: {
+      baseDir: "./public/"
+    }
+  });
 
   // Watch any files in public/, reload on change
-  gulp.watch(['public/**']).on('change', livereload.changed);
-
+  gulp.watch(['public/**']).on('change', browserSync.reload);
 });
