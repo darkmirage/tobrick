@@ -1,0 +1,5 @@
+npm install -g gulp browserify
+gulp watch
+
+gem install sinatra
+ruby run.rb

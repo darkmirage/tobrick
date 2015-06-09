@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Web app to convert images to Lego mosaics using ditherJS.",
   "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:darkmirage/tobrick.git"
+  },
   "dependencies": {
     "del": "^1.2.0",
     "gulp": "^3.9.0",
