@@ -1,12 +1,12 @@
 "use strict";
 /* jshint globalstrict: true */
-/* exported BrickerApp */
 
-/* global $: false */
-/* global Bricker: false */
-/* global Colors: false */
-/* global Globals: false */
+/* global $, require, module */
 /* global React: false */
+
+var Colors = require('./colors');
+var Globals = require('./globals');
+var Bricker = require('./bricker');
 
 function BrickerApp(img, csv_url, id, thumbnails) {
 
@@ -178,20 +178,32 @@ var ColorEntry = React.createClass({
 });
 
 var ColorPicker = React.createClass({
-  render: function() {
-    var self = this;
+  selectedColorEntries: function() {
     var selected_colors = this.props.selectedColors;
-    var colorNodes = this.props.colors.map(function (color) {
-      var selected = selected_colors.indexOf(color.id) !== -1;
-      return (
-        <ColorEntry key={color.id} color={color} isSelected={selected} data={self.props.data}/>
-      );
-    });
+    return this.props.colors.filter(function(color) {
+      return selected_colors.indexOf(color.id) !== -1;
+    }).map(this.mapEntries);
+  },
+  otherColorEntries: function() {
+    var selected_colors = this.props.selectedColors;
+    return this.props.colors.filter(function(color) {
+      return selected_colors.indexOf(color.id) === -1;
+    }).map(this.mapEntries);
+  },
+  mapEntries: function(color) {
+    var self = this;
+    var selected = this.props.selectedColors.indexOf(color.id) !== -1;
+    return (
+      <ColorEntry key={color.id} color={color} isSelected={selected} data={self.props.data}/>
+    );
+  },
+  render: function() {
     return (
       <div className="toolbar-section">
         <div className="toolbar-label">Pick the block colors you want to incorporate</div>
         <div className="toolbar-color-list">
-          {colorNodes}
+          {this.selectedColorEntries()}
+          {this.otherColorEntries()}
         </div>
         <a className="btn btn-default" onClick={this.props.data.handleReset}>Show me</a>
       </div>
@@ -267,7 +279,6 @@ var App = React.createClass({
   },
   changeImage: function(src, use_colors) {
     $(Globals.displayBoxSelector).remove();
-    console.log(use_colors);
     if (!use_colors) {
       use_colors = this.state.colors.getDefaultIDs();
     }
@@ -340,3 +351,5 @@ React.render(
 );
 
 }
+
+module.exports = BrickerApp;

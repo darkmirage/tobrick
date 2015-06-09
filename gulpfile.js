@@ -1,3 +1,6 @@
+var browserify = require('browserify');
+var reactify = require('reactify');
+
 var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -7,8 +10,10 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
+    source = require('vinyl-source-stream'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
+    streamify = require('gulp-streamify'),
     livereload = require('gulp-livereload'),
     del = require('del'),
     react = require('gulp-react');
@@ -23,28 +28,25 @@ gulp.task('css', function() {
     .pipe(notify({ message: 'Sass task complete' }));
 });
 
-gulp.task('js', function() {
-  return gulp.src('src/js/**/*.js')
-    .pipe(react())
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(concat('main.js'))
+gulp.task('js', ['js-hint'], function() {
+  var b = browserify();
+  b.transform(reactify);
+  b.add('src/js/main.js')
+  return b.bundle()
+    .pipe(source('bundle.js'))
     .pipe(gulp.dest('public/js'))
     .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest('public/js'))
     .pipe(notify({ message: 'JavaScript task complete' }));
 });
 
-gulp.task('lib', function() {
-  return gulp.src('lib/**/*.js')
-    .pipe(gulp.dest('public/js/lib'))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(gulp.dest('public/js/lib'))
-    .pipe(notify({ message: 'JavaScript libraries task complete' }));
+gulp.task('js-hint', function() {
+  return gulp.src('src/**/*.js')
+    .pipe(react())
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('default'));
 });
-
 
 gulp.task('img', function() {
   return gulp.src('src/img/**/*')
@@ -76,11 +78,11 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('css', 'js', 'img', 'csv', 'thirdparty-img', 'html', 'lib');
+    gulp.start('css', 'js', 'img', 'csv', 'thirdparty-img', 'html');
 });
 
 gulp.task('build', ['clean'], function() {
-    gulp.start('css', 'js', 'img', 'csv', 'html', 'lib');
+    gulp.start('css', 'js', 'img', 'csv', 'html');
 });
 
 gulp.task('watch', function() {
@@ -93,7 +95,6 @@ gulp.task('watch', function() {
 
   // Watch .js files
   gulp.watch('src/js/**/*.js', ['js']);
-  gulp.watch('lib/**/*.js', ['lib']);
 
   // Watch image files
   gulp.watch('src/img/**/*', ['img']);

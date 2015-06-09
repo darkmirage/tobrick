@@ -1,6 +1,6 @@
 "use strict";
 /* jshint globalstrict: true */
-/* exported Globals */
+/* global module */
 
 var Globals = {
   blockSize: 16,
@@ -17,3 +17,5 @@ var Globals = {
 };
 
 Globals.init();
+
+module.exports = Globals;

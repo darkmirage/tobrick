@@ -1,6 +1,7 @@
 "use strict";
 /* jshint globalstrict: true */
-/* exported Brick */
+
+/* global module */
 
 function Brick(dimension, color) {
   var self = this;
@@ -11,3 +12,5 @@ function Brick(dimension, color) {
 Brick.prototype.toString = function() {
   return '(' + this.dimension + ', ' + this.color.id + ' ' + this.color.name + ')';
 };
+
+module.exports = Brick;

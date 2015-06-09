@@ -53,6 +53,8 @@
   margin: 5px;
   cursor: pointer;
   opacity: 0.5;
+  transition: all 500ms ease;
+  box-sizing: border-box;
 }
 
 .toolbar-color-entry:hover {

@@ -4,10 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="https://fb.me/react-0.13.3.js"></script>
+<script src="https://fb.me/react-with-addons-0.13.3.js"></script>
 
-<script src="js/lib/ditherjs.js"></script>
-<script src="js/lib/jquery.ditherjs.js"></script>
+<script src="js/bundle.js"></script>
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
@@ -46,26 +45,5 @@
 </div>
 
 </body>
-
-<script src="js/main.js"></script>
-
-<script>
-$(document).ready(function() {
-  var thumbnails = [
-    { src: "img/thirdparty/starry-night.jpg", title: "The Starry Night" },
-    { src: "img/thirdparty/kanagawa.jpg", title: "The Great Wave off Kanagawa", colors: [1, 5, 23, 24, 26, 194, 199] },
-    { src: "img/thirdparty/carpet.jpg", title: "Ukrainian carpet" },
-    { src: "img/thirdparty/lenna.png", title: "Lenna" },
-    { src: "img/thirdparty/lego.png", title: "LEGO", colors: [1, 21, 24, 26, 199] },
-    { src: "img/thirdparty/stanford.png", title: "Stanford", colors: [1, 21, 28] },
-    { src: "img/thirdparty/firefox.jpg", title: "Firefox", colors: [1, 21, 23, 24, 26, 106, 192] }
-  ];
-
-  var img = $('.bricker-original');
-  img.one('load', function() {
-    bricker = new BrickerApp(img, "csv/lego.csv", 'toolbar', thumbnails);
-  });
-});
-</script>
 
 </html>

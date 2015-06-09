@@ -1,12 +1,11 @@
 "use strict";
 /* jshint globalstrict: true */
-/* exported Bricker */
 
-/* global $: false */
-/* global DitherJS: false */
-/* global Globals: false */
-/* global Brick: false */
+/* global $, require, module */
 
+var DitherJS = require('../../lib/ditherjs')
+var Globals = require('./globals');
+var Brick = require('./brick');
 
 function Bricker(original_image, num_vertical_blocks, colors, selected_colors, stack_mode, size_callback) {
   var self = this;
@@ -242,3 +241,5 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
     return { bricks: brick_matrix, brickCounts: brick_counts };
   };
 }
+
+module.exports = Bricker;

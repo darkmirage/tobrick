@@ -1,6 +1,6 @@
 "use strict";
 /* jshint globalstrict: true */
-/* exported Colors, Color */
+/* global module */
 
 function Color(headers, line) {
   var self = this;
@@ -70,3 +70,5 @@ function Colors(csv_text) {
     return rgbaMap[rgba];
   };
 }
+
+module.exports = Colors;
