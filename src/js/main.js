@@ -1,7 +1,7 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global $, require */
+/* global $, require, React */
 
 var App = require('./app');
 
@@ -18,6 +18,9 @@ $(document).ready(function() {
 
   var img = $('.bricker-original');
   img.one('load', function() {
-    new App(img, "csv/lego.csv", 'toolbar', thumbnails);
+    React.render(
+      <App colorsURL="csv/lego.csv" image={img} thumbnails={thumbnails} />,
+      document.getElementById('toolbar')
+    );
   });
 });

@@ -1,218 +1,18 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global $, require, module */
-/* global React: false */
+/* global $, require, module, React */
 
 var Colors = require('./colors');
 var Globals = require('./globals');
 var Bricker = require('./bricker');
 
-function BrickerApp(img, csv_url, id, thumbnails) {
+var Thumbnails = require('./components/thumbnails');
+var Uploader = require('./components/uploader');
+var Instruction = require('./components/instruction');
+var Dimension = require('./components/dimension');
+var ColorPicker = require('./components/color-picker');
 
-console.log("Initializing BrickerApp");
-
-// Thumbnails
-//=================================================================================================
-var Thumbnail = React.createClass({
-  onClick: function(event) {
-    var src = event.target.src;
-    var use_colors = this.props.thumbnail.colors;
-    this.props.data.handleChangeImage(src, use_colors);
-  },
-  render: function() {
-    return (
-      <img src={this.props.thumbnail.src} className="bricker-thumbnail" title={this.props.thumbnail.title} onClick={this.onClick} />
-    );
-  }
-});
-
-var Thumbnails = React.createClass({
-  render: function() {
-    var self = this;
-    var thumbnailNodes = this.props.thumbnails.map(function (thumbnail) {
-      return (
-        <Thumbnail key={thumbnail.title} thumbnail={thumbnail} data={self.props.data}/>
-      );
-    });
-    return (
-      <div className="toolbar-section">
-        <div className="toolbar-label">Try out the preset images</div>
-        {thumbnailNodes}
-      </div>
-    );
-  }
-});
-
-// Image uploader
-//=================================================================================================
-var Uploader = React.createClass({
-  onChange: function(event) {
-    var self = this;
-    var file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onloadend = function() {
-      self.props.data.handleChangeImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  },
-  render: function() {
-    return (
-      <div className="toolbar-section">
-        <div className="toolbar-label">Or upload your own</div>
-        <div className="tooblar-upload">
-          <span className="btn btn-lg btn-default btn-file">
-            Upload image<input type="file" onChange={this.onChange}></input>
-          </span>
-        </div>
-      </div>
-    );
-  }
-});
-
-
-// Instruction options
-//=================================================================================================
-var Instruction = React.createClass({
-  onClickShow: function(event) {
-    event.preventDefault();
-  },
-  render: function() {
-    var class_name = 'btn btn-default';
-    if (!this.props.data.ready) {
-      class_name += ' disabled';
-    }
-    var totalCount = this.props.instructions ? this.props.instructions.brickCounts.total : 0;
-    return (
-      <div className="toolbar-section">
-        <div>
-          Number of bricks: {totalCount}
-        </div>
-        <div className="toolbar-label">Build instructions</div>
-        <a href="#" onClick={this.onClickShow} className={class_name}>Show</a>
-      </div>
-    );
-  }
-});
-
-// Display height
-//=================================================================================================
-var HeightField = React.createClass({
-  getInitialState: function() {
-    return {
-      useMetric: true
-    };
-  },
-  _toFeet: function(x) {
-    var realFeet = ((x*0.393700) / 12);
-    var feet = Math.floor(realFeet);
-    var inches = Math.round((realFeet - feet) * 12);
-    return feet + '\u2032' + inches + '\u2033';
-  },
-  _getHeight: function() {
-    if (this.props.stackMode) {
-      return this.props.dimension.height * Globals.blockRealHeight / 10;
-    } else {
-      return this.props.dimension.height * Globals.blockRealWidth / 10;
-    }
-  },
-  _getWidth: function() {
-    return this.props.dimension.width * Globals.blockRealWidth / 10;
-  },
-  _printDimensions: function() {
-    if (this.state.useMetric) {
-      return this._getWidth().toFixed(1) + 'cm x ' + this._getHeight().toFixed(1) + 'cm';
-    } else {
-      return this._toFeet(this._getWidth()) + ' x ' + this._toFeet(this._getHeight());
-    }
-  },
-  onChange: function(event) {
-    var height = event.target.value;
-    this.props.data.handleUpdateHeight(height);
-  },
-  render: function() {
-    return (
-      <div className="toolbar-section">
-        <div className="toolbar-label">How tall should the mosaic be?</div>
-        <div className="toolbar-block-height">
-          <input type="text" value={this.props.defaultValue} onChange={this.onChange}></input>
-          <span> blocks high</span>
-        </div>
-        <div className="toolbar-dimensions">
-          Dimensions: {this._printDimensions()}
-        </div>
-      </div>
-    );
-  }
-});
-
-// Color Picker
-//=================================================================================================
-var ColorEntry = React.createClass({
-  toggle: function() {
-    if (this.props.isSelected) {
-      this.props.data.handleRemoveFromPalette(this.props.color.id);
-    } else {
-      this.props.data.handleAddToPalette(this.props.color.id);
-    }
-  },
-  render: function() {
-    var divStyle = {
-      backgroundColor: this.props.color.getRGBString()
-    };
-    var class_name = "toolbar-color-entry";
-    if (this.props.isSelected) {
-      class_name += " toolbar-color-entry-selected";
-    }
-    return (
-      <div className={class_name}
-           onClick={this.toggle}
-           style={divStyle}
-           title={this.props.color.name}>
-      </div>
-    );
-  }
-});
-
-var ColorPicker = React.createClass({
-  selectedColorEntries: function() {
-    var selected_colors = this.props.selectedColors;
-    return this.props.colors.filter(function(color) {
-      return selected_colors.indexOf(color.id) !== -1;
-    }).map(this.mapEntries);
-  },
-  otherColorEntries: function() {
-    var selected_colors = this.props.selectedColors;
-    return this.props.colors.filter(function(color) {
-      return selected_colors.indexOf(color.id) === -1;
-    }).map(this.mapEntries);
-  },
-  mapEntries: function(color) {
-    var self = this;
-    var selected = this.props.selectedColors.indexOf(color.id) !== -1;
-    return (
-      <ColorEntry key={color.id} color={color} isSelected={selected} data={self.props.data}/>
-    );
-  },
-  render: function() {
-    return (
-      <div className="toolbar-section">
-        <div className="toolbar-label">Pick the block colors you want to incorporate</div>
-        <div className="toolbar-color-list">
-          {this.selectedColorEntries()}
-          {this.otherColorEntries()}
-        </div>
-        <a className="btn btn-default" onClick={this.props.data.handleReset}>Show me</a>
-      </div>
-    );
-  }
-});
-
-// Main App
-//=================================================================================================
 var App = React.createClass({
   propTypes: {
   },
@@ -329,7 +129,7 @@ var App = React.createClass({
         <Thumbnails   data={data}
                       thumbnails={this.props.thumbnails} />
         <Uploader     data={data} />
-        <HeightField  data={data}
+        <Dimension    data={data}
                       dimension={this.state.mosaicDimension}
                       defaultValue={this.state.numVerticalBlocks}
                       stackMode={this.state.stackMode} />
@@ -343,13 +143,4 @@ var App = React.createClass({
   }
 });
 
-// Initialize
-//=================================================================================================
-React.render(
-  <App colorsURL={csv_url} image={img} thumbnails={thumbnails} />,
-  document.getElementById(id)
-);
-
-}
-
-module.exports = BrickerApp;
+module.exports = App;

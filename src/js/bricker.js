@@ -3,7 +3,7 @@
 
 /* global $, require, module */
 
-var DitherJS = require('../../lib/ditherjs')
+var DitherJS = require('../../lib/ditherjs');
 var Globals = require('./globals');
 var Brick = require('./brick');
 
