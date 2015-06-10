@@ -19,7 +19,7 @@ $(document).ready(function() {
   var img = $('.bricker-original');
   img.one('load', function() {
     React.render(
-      <App colorsURL="csv/lego.csv" image={img} thumbnails={thumbnails} />,
+      <App colorsURL="csv/lego.csv" image={img} initialThumbnails={thumbnails} />,
       document.getElementById('toolbar')
     );
   });

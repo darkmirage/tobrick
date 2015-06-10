@@ -4,12 +4,24 @@
 /* global module, React */
 
 var Uploader = React.createClass({
+  getInitialState: function() {
+    return {
+      uploadedFiles: []
+    };
+  },
   onChange: function(event) {
     var self = this;
     var file = event.target.files[0];
+
+    if (this.state.uploadedFiles.indexOf(file.name) !== -1) {
+      console.error("File was already uploaded");
+      return;
+    }
+    this.state.uploadedFiles.push(file.name);
+
     var reader = new FileReader();
     reader.onloadend = function() {
-      self.props.data.handleChangeImage(reader.result);
+      self.props.data.handleUploadedImage(reader.result, file.name);
     };
 
     if (file) {
@@ -18,13 +30,8 @@ var Uploader = React.createClass({
   },
   render: function() {
     return (
-      <div className="toolbar-section">
-        <div className="toolbar-label">Or upload your own</div>
-        <div className="tooblar-upload">
-          <span className="btn btn-lg btn-default btn-file">
-            Upload image<input type="file" onChange={this.onChange}></input>
-          </span>
-        </div>
+      <div className="btn btn-file bricker-thumbnail-upload-button" title="Upload your own image">
+        Upload<input type="file" onChange={this.onChange}></input>
       </div>
     );
   }

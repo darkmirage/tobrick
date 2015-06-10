@@ -32,15 +32,69 @@
 
 /* Thumbnails */
 
-.bricker-thumbnail {
-  height: 100px;
+.bricker-thumbnail-box {
+  float: left;
+  margin: 5px;
   cursor: pointer;
-  border: 2px solid #fff;
-  margin: 3px;
 }
 
-.bricker-thumbnail:hover {
-  border: 2px solid #444;
+.bricker-thumbnail-upload-button,
+.bricker-thumbnail {
+  border-radius: 25px;
+  height: 100px;
+  width: 100px;
+  border: 1px solid #666;
+  background-position: center center;
+  background-size: cover;
+  transition: all .3s;
+  box-sizing: border-box;
+}
+
+.bricker-thumbnail-popup-image {
+  height: 200px;
+}
+
+.bricker-thumbnail-popup-caption {
+  margin-top: 5px;
+  color: #666;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.bricker-thumbnail-popup {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 10;
+  background: #fff;
+  padding: 5px;
+  transition: all .3s;
+  margin-top: -100px;
+  margin-left: 10px;
+}
+
+.bricker-thumbnail-box:hover .bricker-thumbnail-popup {
+  visibility: visible;
+  opacity: 1;
+  box-shadow: 0 0 5px #444;
+  transform: none;
+  transform: translate(10px, 10px);
+}
+
+.bricker-thumbnail-box:hover .bricker-thumbnail {
+  filter: grayscale(100%) blur(2px);
+}
+
+.bricker-thumbnail-transition-enter {
+  opacity: 0.01;
+  transform: translate(0, 10px);
+  transition: all .3s ease-in;
+}
+
+.bricker-thumbnail-transition-enter.bricker-thumbnail-transition-enter-active {
+  opacity: 1;
+  transform: translate(0, 0);
 }
 
 /* Toolbar */
@@ -68,6 +122,8 @@
 }
 
 .toolbar-section {
+  width: 100%;
+  overflow: hidden;
   margin-top: 20px;
 }
 
@@ -95,9 +151,19 @@
 }
 
 .btn-file {
+  font-size: 20px;
+  padding: 0;
+  line-height: 100px;
   position: relative;
   overflow: hidden;
+  background: #eee;
 }
+
+.btn-file:hover {
+  background: #666;
+  color: #eee;
+}
+
 .btn-file input[type=file] {
   position: absolute;
   top: 0;

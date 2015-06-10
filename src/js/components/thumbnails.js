@@ -1,17 +1,30 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global module, React */
+/* global require, module, React */
+
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
+var Uploader = require('./uploader');
 
 var Thumbnail = React.createClass({
   onClick: function(event) {
-    var src = event.target.src;
+    var src = event.target.style.backgroundImage.replace('url(','').replace(')','');
     var use_colors = this.props.thumbnail.colors;
     this.props.data.handleChangeImage(src, use_colors);
   },
   render: function() {
+    var style = {
+      backgroundImage: 'url(' + this.props.thumbnail.src + ')'
+    };
     return (
-      <img src={this.props.thumbnail.src} className="bricker-thumbnail" title={this.props.thumbnail.title} onClick={this.onClick} />
+      <div className="bricker-thumbnail-box">
+        <div style={style} className="bricker-thumbnail" title={this.props.thumbnail.title} onClick={this.onClick} />
+        <div className="bricker-thumbnail-popup">
+          <img src={this.props.thumbnail.src} className="bricker-thumbnail-popup-image" />
+          <div className="bricker-thumbnail-popup-caption">{this.props.thumbnail.title}</div>
+        </div>
+      </div>
     );
   }
 });
@@ -27,7 +40,12 @@ var Thumbnails = React.createClass({
     return (
       <div className="toolbar-section">
         <div className="toolbar-label">Try out the preset images</div>
-        {thumbnailNodes}
+          <ReactCSSTransitionGroup transitionName="bricker-thumbnail-transition">
+            {thumbnailNodes}
+          </ReactCSSTransitionGroup>
+        <div className="bricker-thumbnail-box">
+          <Uploader data={this.props.data} />
+        </div>
       </div>
     );
   }

@@ -8,7 +8,6 @@ var Globals = require('./globals');
 var Bricker = require('./bricker');
 
 var Thumbnails = require('./components/thumbnails');
-var Uploader = require('./components/uploader');
 var Instruction = require('./components/instruction');
 var Dimension = require('./components/dimension');
 var ColorPicker = require('./components/color-picker');
@@ -26,7 +25,8 @@ var App = React.createClass({
       bricker: null,
       mosaicDimension: { width: 0, height: 0 },
       ready: false,
-      instructions: null
+      instructions: null,
+      thumbnails: this.props.initialThumbnails
     };
   },
   componentDidMount: function() {
@@ -85,6 +85,13 @@ var App = React.createClass({
     this.setState({ selectedColors: use_colors });
     this.props.image[0].src = src;
   },
+  addToThumbnails: function(src, file_name) {
+    var self = this;
+    var thumbnails = this.state.thumbnails;
+    thumbnails.push({ src: src, title: file_name });
+    this.setState({ thumbnails: thumbnails });
+    self.changeImage(src);
+  },
   refreshInstructions: function() {
     var bricker = this.state.bricker;
     var brick_types = this.state.selectedBrickTypes;
@@ -122,13 +129,13 @@ var App = React.createClass({
       handleRemoveFromPalette: this.removeFromPalette,
       handleReset: this.resetBricker,
       handleUpdateHeight: this.updateHeight,
-      handleChangeImage: this.changeImage
+      handleChangeImage: this.changeImage,
+      handleUploadedImage: this.addToThumbnails
     };
     return (
       <div>
         <Thumbnails   data={data}
-                      thumbnails={this.props.thumbnails} />
-        <Uploader     data={data} />
+                      thumbnails={this.state.thumbnails} />
         <Dimension    data={data}
                       dimension={this.state.mosaicDimension}
                       defaultValue={this.state.numVerticalBlocks}
