@@ -25,6 +25,10 @@ function Color(headers, line) {
   self.isDefault = function() {
     return self.show_as_default === 1;
   };
+
+  self.isTransparent = function() {
+    return self.transparent === 1;
+  };
 }
 
 function Colors(csv_text) {

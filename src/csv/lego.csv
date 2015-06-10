@@ -1,53 +1,53 @@
-id,name,R,G,B,show_as_default
-1,White,242,243,242,1
-5,Brick Yellow,215,197,153,1
-18,Nougat,204,142,104,0
-21,Bright Red,196,40,27,1
-23,Bright Blue,13,105,171,1
-24,Bright Yellow,245,205,47,1
-26,Black,27,42,52,1
-28,Dark Green,40,127,70,1
-37,Bright Green,75,151,74,0
-38,Dark Orange,160,95,52,0
-40,Transparent,236,236,236,0
-41,Transparent Red,205,84,75,0
-42,Transparent Light Blue,193,223,240,0
-43,Transparent Blue,123,182,232,0
-44,Transparent Yellow,247,241,141,0
-47,Transparent Fluorescent Reddish Orange,217,133,108,0
-48,Transparent Green,132,182,141,0
-49,Transparent Fluorescent Green,248,241,132,0
-102,Medium Blue,110,153,201,0
-106,Bright Orange,231,99,24,1
-111,Transparent Brown,191,183,177,0
-113,Transparent Medium Reddish Violet,228,173,200,0
-119,Bright Yellowish Green,164,189,70,0
-124,Bright Reddish Violet,146,57,120,1
-126,Transparent Bright Bluish Violet,165,165,203,0
-135,Sand Blue,116,134,156,0
-138,Sand Yellow,149,138,115,0
-140,Earth Blue,32,58,86,0
-141,Earth Green,39,70,44,0
-143,Transparent Fluorescent Blue,207,226,247,0
-151,Sand Green,120,144,129,0
-154,Dark Red,123,46,47,0
-182,Transparent Fluorescent Orange,236,118,14,0
-191,Flame Yellowish Orange,232,171,45,0
-192,Reddish Brown,105,64,39,1
-194,Medium Stone Grey,163,162,164,1
-199,Dark Stone Grey,99,95,97,1
-208,Light Stone Grey,229,228,222,0
-212,Light Royal Blue,159,195,233,0
-221,Bright Purple,205,98,152,0
-222,Light Purple,228,173,200,0
-226,Cool Yellow,253,234,140,0
-268,Medium Lilac,52,43,117,0
-311,Transparent Bright Green,153,255,102,0
-321,Dark Azur,70,155,195,0
-322,Medium Azur,104,195,226,0
-323,Aqua,211,242,234,0
-324,Medium Lavender,160,110,185,0
-325,Lavender,205,164,222,0
-326,Spring Yellowish Green,226,249,154,0
-330,Olive Green,119,119,78,0
-331,Medium Yellowish Green,150,185,59,0
+id,name,R,G,B,show_as_default,transparent
+1,White,242,243,242,1,0
+5,Brick Yellow,215,197,153,1,0
+18,Nougat,204,142,104,0,0
+21,Bright Red,196,40,27,1,0
+23,Bright Blue,13,105,171,1,0
+24,Bright Yellow,245,205,47,1,0
+26,Black,27,42,52,1,0
+28,Dark Green,40,127,70,1,0
+37,Bright Green,75,151,74,0,0
+38,Dark Orange,160,95,52,0,0
+40,Transparent,236,236,236,0,1
+41,Transparent Red,205,84,75,0,1
+42,Transparent Light Blue,193,223,240,0,1
+43,Transparent Blue,123,182,232,0,1
+44,Transparent Yellow,247,241,141,0,1
+47,Transparent Fluorescent Reddish Orange,217,133,108,0,1
+48,Transparent Green,132,182,141,0,1
+49,Transparent Fluorescent Green,248,241,132,0,1
+102,Medium Blue,110,153,201,0,0
+106,Bright Orange,231,99,24,1,0
+111,Transparent Brown,191,183,177,0,1
+113,Transparent Medium Reddish Violet,228,173,200,0,1
+119,Bright Yellowish Green,164,189,70,0,0
+124,Bright Reddish Violet,146,57,120,0,0
+126,Transparent Bright Bluish Violet,165,165,203,0,1
+135,Sand Blue,116,134,156,0,0
+138,Sand Yellow,149,138,115,0,0
+140,Earth Blue,32,58,86,0,0
+141,Earth Green,39,70,44,0,0
+143,Transparent Fluorescent Blue,207,226,247,0,1
+151,Sand Green,120,144,129,0,0
+154,Dark Red,123,46,47,0,0
+182,Transparent Fluorescent Orange,236,118,14,0,1
+191,Flame Yellowish Orange,232,171,45,0,0
+192,Reddish Brown,105,64,39,1,0
+194,Medium Stone Grey,163,162,164,1,0
+199,Dark Stone Grey,99,95,97,1,0
+208,Light Stone Grey,229,228,222,0,0
+212,Light Royal Blue,159,195,233,0,0
+221,Bright Purple,205,98,152,0,0
+222,Light Purple,228,173,200,0,0
+226,Cool Yellow,253,234,140,0,0
+268,Medium Lilac,52,43,117,0,0
+311,Transparent Bright Green,153,255,102,0,1
+321,Dark Azur,70,155,195,0,0
+322,Medium Azur,104,195,226,0,0
+323,Aqua,211,242,234,0,0
+324,Medium Lavender,160,110,185,0,0
+325,Lavender,205,164,222,0,0
+326,Spring Yellowish Green,226,249,154,0,0
+330,Olive Green,119,119,78,0,0
+331,Medium Yellowish Green,150,185,59,0,0

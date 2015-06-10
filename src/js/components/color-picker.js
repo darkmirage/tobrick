@@ -30,16 +30,22 @@ var ColorEntry = React.createClass({
 });
 
 var ColorPicker = React.createClass({
-  selectedColorEntries: function() {
+  selectedEntries: function() {
     var selected_colors = this.props.selectedColors;
     return this.props.colors.filter(function(color) {
       return selected_colors.indexOf(color.id) !== -1;
     }).map(this.mapEntries);
   },
-  otherColorEntries: function() {
+  unselectedTransparentEntries: function() {
     var selected_colors = this.props.selectedColors;
     return this.props.colors.filter(function(color) {
-      return selected_colors.indexOf(color.id) === -1;
+      return color.isTransparent() && selected_colors.indexOf(color.id) === -1;
+    }).map(this.mapEntries);
+  },
+  unselectedNormalEntries: function() {
+    var selected_colors = this.props.selectedColors;
+    return this.props.colors.filter(function(color) {
+      return !color.isTransparent() && selected_colors.indexOf(color.id) === -1;
     }).map(this.mapEntries);
   },
   mapEntries: function(color) {
@@ -54,8 +60,11 @@ var ColorPicker = React.createClass({
       <div className="toolbar-section">
         <div className="toolbar-label">Pick the block colors you want to incorporate</div>
         <div className="toolbar-color-list">
-          {this.selectedColorEntries()}
-          {this.otherColorEntries()}
+          {this.selectedEntries()}
+          <hr />
+          {this.unselectedNormalEntries()}
+          <hr />
+          {this.unselectedTransparentEntries()}
         </div>
         <a className="btn btn-default" onClick={this.props.data.handleReset}>Show me</a>
       </div>
