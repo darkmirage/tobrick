@@ -1,2 +1,3 @@
-npm install -g gulp browserify
+npm install -g gulp
+npm install
 gulp watch
