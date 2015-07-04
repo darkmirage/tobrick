@@ -38,7 +38,7 @@ gulp.task('js', ['js-hint'], function() {
     .pipe(rename({suffix: '.min'}))
     .pipe(streamify(uglify()))
     .pipe(gulp.dest('public/js'))
-    .pipe(notify({ message: 'JavaScript task complete' }));
+    .pipe(notify({ message: 'JavaScript task complete', onLast: true }));
 });
 
 gulp.task('js-hint', function() {
@@ -52,25 +52,25 @@ gulp.task('img', function() {
   return gulp.src('src/img/**/*')
     .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
     .pipe(gulp.dest('public/img'))
-    .pipe(notify({ message: 'Images task complete' }));
+    .pipe(notify({ message: 'Images task complete', onLast: true }));
 });
 
 gulp.task('csv', function() {
   return gulp.src('src/csv/**/*')
     .pipe(gulp.dest('public/csv'))
-    .pipe(notify({ message: 'CSV task complete' }));
+    .pipe(notify({ message: 'CSV task complete', onLast: true }));
 });
 
 gulp.task('thirdparty-img', function() {
   return gulp.src('thirdparty/**/*')
     .pipe(gulp.dest('public/img/thirdparty'))
-    .pipe(notify({ message: 'Test images task complete' }));
+    .pipe(notify({ message: 'Test images task complete', onLast: true }));
 });
 
 gulp.task('html', function() {
   return gulp.src('src/*.html')
     .pipe(gulp.dest('public'))
-    .pipe(notify({ message: 'HTML task complete' }));
+    .pipe(notify({ message: 'HTML task complete', onLast: true }));
 });
 
 gulp.task('clean', function(cb) {
