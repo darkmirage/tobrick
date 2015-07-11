@@ -16,6 +16,7 @@ var Diagram = React.createClass({
     console.log(this.state.instructions);
     return (
       <div>
+        <h2 id="instructions">Build Instructions</h2>
         <InstructionRows instructions={this.state.instructions} />
       </div>
     );
@@ -75,7 +76,7 @@ var InstructionBrick = React.createClass({
       width: 7.8 * 2 * brick.dimension
     };
     var text_style = {
-      color: brick.color.isDark() ? '#ccc' : '#444',
+      color: brick.color.isDark() ? '#fff' : '#000',
     };
     return (
       <div className="instruction-diagram-brick" style={style}>

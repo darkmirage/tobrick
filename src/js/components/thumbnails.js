@@ -40,7 +40,7 @@ var Thumbnails = React.createClass({
     return (
       <div className="toolbar-section">
         <div className="toolbar-label">Source Image</div>
-        <div className="toolbar-content">
+        <div className="toolbar-content clearfix">
           <ReactCSSTransitionGroup transitionName="bricker-thumbnail-transition">
             {thumbnailNodes}
           </ReactCSSTransitionGroup>

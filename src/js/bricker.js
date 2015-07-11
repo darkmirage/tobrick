@@ -60,6 +60,7 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
 
     display_box.addClass(_getSizeKey());
     display_box.addClass(Globals.displayBoxClass);
+    display_box.addClass('bricker-display-box-active')
 
     _cropImage();
 
@@ -135,12 +136,14 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
     var box = _getCurrentBox();
     if (box) {
       box.hide();
+      box.removeClass('bricker-display-box-active')
     }
     self.numVerticalBlocks = num_vertical_blocks;
 
     if (_getSizeKey() in self.cachedResults) {
       box = _getCurrentBox();
       box.show();
+      box.addClass('bricker-display-box-active');
       _returnSize($('canvas', box)[0]);
       if (callback) {
         callback();
