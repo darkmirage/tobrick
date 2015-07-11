@@ -1,9 +1,7 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global $, module, React */
-
-var Globals = require('./globals');
+/* global module, React */
 
 var Diagram = React.createClass({
   getInitialState: function() {
@@ -40,7 +38,7 @@ var InstructionRows = React.createClass({
       return (
         <InstructionRow key={index} rowNumber={row_num} row={row} />
       );
-    })
+    });
 
     return (
       <div className="instruction-diagram-body">

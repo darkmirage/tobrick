@@ -39,12 +39,14 @@ var Thumbnails = React.createClass({
     });
     return (
       <div className="toolbar-section">
-        <div className="toolbar-label">Try out the preset images</div>
+        <div className="toolbar-label">Source Image</div>
+        <div className="toolbar-content">
           <ReactCSSTransitionGroup transitionName="bricker-thumbnail-transition">
             {thumbnailNodes}
           </ReactCSSTransitionGroup>
-        <div className="bricker-thumbnail-box">
-          <Uploader data={this.props.data} />
+          <div className="bricker-thumbnail-box">
+            <Uploader data={this.props.data} />
+          </div>
         </div>
       </div>
     );

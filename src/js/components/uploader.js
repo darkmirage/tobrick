@@ -30,7 +30,7 @@ var Uploader = React.createClass({
   },
   render: function() {
     return (
-      <div className="btn btn-file bricker-thumbnail-upload-button" title="Upload your own image">
+      <div className="btn btn-custom btn-file bricker-thumbnail-upload-button" title="Upload your own image">
         Upload<input type="file" onChange={this.onChange}></input>
       </div>
     );

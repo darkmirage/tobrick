@@ -5,9 +5,11 @@
 
 var Globals = require('../globals');
 
-var Dimension = React.createClass({
+var Options = React.createClass({
   getInitialState: function() {
     return {
+      changed: false,
+      height: this.props.defaultHeight,
       useMetric: true
     };
   },
@@ -36,22 +38,35 @@ var Dimension = React.createClass({
   },
   onChange: function(event) {
     var height = event.target.value;
-    this.props.data.handleUpdateHeight(height);
+    this.setState({ height: height, changed: true });
+  },
+  onClick: function() {
+    this.props.data.handleUpdateHeight(this.state.height);
+    this.setState({ changed: false });
   },
   render: function() {
+    var button_class = this.state.changed ? "btn btn-custom" : "btn btn-custom disabled";
     return (
       <div className="toolbar-section">
-        <div className="toolbar-label">How tall should the mosaic be?</div>
-        <div className="toolbar-block-height">
-          <input type="text" value={this.props.defaultValue} onChange={this.onChange}></input>
-          <span> blocks high</span>
+        <div className="toolbar-label">Options</div>
+        <div className="toolbar-content">
+          <div className="toolbar-block-height">
+            <input type="text" value={this.state.height} onChange={this.onChange}></input>
+            <span> blocks high</span>
+          </div>
+
+          <div className="toolbar-save">
+            <button className={button_class} onClick={this.onClick}>Save Options</button>
+          </div>
         </div>
-        <div className="toolbar-dimensions">
-          Dimensions: {this._printDimensions()}
+        <div className="toolbar-footer">
+          <div className="toolbar-dimensions">
+            Design measures <strong>{this._printDimensions()}</strong>
+          </div>
         </div>
       </div>
     );
   }
 });
 
-module.exports = Dimension;
+module.exports = Options;

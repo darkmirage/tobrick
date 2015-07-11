@@ -9,7 +9,7 @@ var Bricker = require('./bricker');
 
 var Thumbnails = require('./components/thumbnails');
 var Instruction = require('./components/instruction');
-var Dimension = require('./components/dimension');
+var Options = require('./components/options');
 var ColorPicker = require('./components/color-picker');
 
 var Toolbar = React.createClass({
@@ -139,9 +139,9 @@ var Toolbar = React.createClass({
                       thumbnails={this.state.thumbnails} />
         <Instruction  data={data}
                       instructions={this.state.instructions} />
-        <Dimension    data={data}
+        <Options      data={data}
                       dimension={this.state.mosaicDimension}
-                      defaultValue={this.state.numVerticalBlocks}
+                      defaultHeight={this.state.numVerticalBlocks}
                       stackMode={this.state.stackMode} />
         <ColorPicker  data={data}
                       colors={this.state.colors.rows}

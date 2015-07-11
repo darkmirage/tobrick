@@ -5,6 +5,7 @@
 
 var ColorEntry = React.createClass({
   toggle: function() {
+    this.props.data.reportChanged();
     if (this.props.isSelected) {
       this.props.data.handleRemoveFromPalette(this.props.color.id);
     } else {
@@ -30,6 +31,11 @@ var ColorEntry = React.createClass({
 });
 
 var ColorPicker = React.createClass({
+  getInitialState: function() {
+    return {
+      changed: false
+    };
+  },
   selectedEntries: function() {
     var selected_colors = this.props.selectedColors;
     return this.props.colors.filter(function(color) {
@@ -51,22 +57,33 @@ var ColorPicker = React.createClass({
   mapEntries: function(color) {
     var self = this;
     var selected = this.props.selectedColors.indexOf(color.id) !== -1;
+    var data = this.props.data;
+    data.reportChanged = function() {
+      self.setState({ changed: true });
+    };
     return (
-      <ColorEntry key={color.id} color={color} isSelected={selected} data={self.props.data}/>
+      <ColorEntry key={color.id} color={color} isSelected={selected} data={data}/>
     );
   },
+  onClick: function() {
+    this.props.data.handleReset();
+    this.setState({ changed: false });
+  },
   render: function() {
+    var button_class = this.state.changed ? "btn btn-custom" : "btn btn-custom disabled";
     return (
       <div className="toolbar-section">
-        <div className="toolbar-label">Pick the block colors you want to incorporate</div>
-        <div className="toolbar-color-list">
-          {this.selectedEntries()}
-          <hr />
-          {this.unselectedNormalEntries()}
-          <hr />
-          {this.unselectedTransparentEntries()}
+        <div className="toolbar-label">Colors</div>
+        <div className="toolbar-content">
+          <div className="toolbar-color-list">
+            {this.selectedEntries()}
+            <br />
+            {this.unselectedNormalEntries()}
+          </div>
+          <div className="toolbar-save">
+            <button className={button_class} onClick={this.onClick}>Save Colors</button>
+          </div>
         </div>
-        <a className="btn btn-default" onClick={this.props.data.handleReset}>Show me</a>
       </div>
     );
   }
