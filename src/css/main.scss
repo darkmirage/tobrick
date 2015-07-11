@@ -179,6 +179,70 @@
   display: block;
 }
 
+/* Instruction Rendering */
+
+#diagram {
+  margin-bottom: 100px;
+  // overflow-x: auto;
+  // overflow-y: hidden;
+}
+
+.instruction-diagram-row {
+  white-space: nowrap;
+}
+
+.instruction-diagram-label {
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.instruction-diagram-row-number, .instruction-diagram-brick {
+  line-height: 18px;
+  font-size: 12px;
+}
+
+.instruction-diagram-row-number {
+  display: inline-block;
+  background: #ccc;
+  width: 100px;
+  height: 20px;
+  border: 1px solid #fff;
+  text-align: center;
+}
+
+.instruction-diagram-hover {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  white-space: normal;
+  background: #fff;
+  min-width: 100px;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #444;
+}
+
+.instruction-diagram-brick {
+  display: inline-block;
+  border: 1px solid #fff;
+  height: 20px;
+  text-align: center;
+  cursor: pointer;
+
+  .instruction-diagram-hover {
+    visibility: hidden;
+  }
+
+  &:hover .instruction-diagram-hover {
+    visibility: visible;
+  }
+}
+
+.instruction-diagram-body {
+}
+
 /* Misc */
 
 .hide-stuff {

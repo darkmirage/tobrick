@@ -10,6 +10,7 @@ var Globals = {
   defaultHeight: 120,
   displayBoxClass: 'bricker-display-box',
   displayBoxImageClass: 'bricker-display-box-image',
+  instructionsPreviewRows: 3,
   init: function() {
     this.displayBoxSelector = '.' + this.displayBoxClass;
     this.blockAspectRatio = this.blockRealHeight / this.blockRealWidth;

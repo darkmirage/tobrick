@@ -29,6 +29,10 @@ function Color(headers, line) {
   self.isTransparent = function() {
     return self.transparent === 1;
   };
+
+  self.isDark = function() {
+    return self.r * 0.299 + self.g * 0.587 + self.b * 0.114 <= 186;
+  };
 }
 
 function Colors(csv_text) {

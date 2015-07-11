@@ -3,7 +3,8 @@
 
 /* global $, require, React */
 
-var App = require('./app');
+var Toolbar = require('./toolbar');
+var Diagram = require('./diagram');
 
 $(document).ready(function() {
   var thumbnails = [
@@ -16,10 +17,15 @@ $(document).ready(function() {
     { src: "img/thirdparty/firefox.jpg", title: "Firefox", colors: [1, 21, 23, 24, 26, 106, 192] }
   ];
 
+  var diagram = React.render(
+    <Diagram />,
+    document.getElementById('diagram')
+  );
+
   var img = $('.bricker-original');
   img.one('load', function() {
     React.render(
-      <App colorsURL="csv/lego.csv" image={img} initialThumbnails={thumbnails} />,
+      <Toolbar colorsURL="csv/lego.csv" image={img} initialThumbnails={thumbnails} diagram={diagram} />,
       document.getElementById('toolbar')
     );
   });

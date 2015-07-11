@@ -3,10 +3,9 @@
 
 /* global module, React */
 
+var Globals = require('../globals');
+
 var Instruction = React.createClass({
-  onClickShow: function(event) {
-    event.preventDefault();
-  },
   render: function() {
     var class_name = 'btn btn-default';
     if (!this.props.data.ready) {
@@ -19,7 +18,9 @@ var Instruction = React.createClass({
           Number of bricks: {totalCount}
         </div>
         <div className="toolbar-label">Build instructions</div>
-        <a href="#" onClick={this.onClickShow} className={class_name}>Show</a>
+        <button type="button" className="btn btn-primary btn-lg">
+          Show Instuctions
+        </button>
       </div>
     );
   }

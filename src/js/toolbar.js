@@ -12,7 +12,7 @@ var Instruction = require('./components/instruction');
 var Dimension = require('./components/dimension');
 var ColorPicker = require('./components/color-picker');
 
-var App = React.createClass({
+var Toolbar = React.createClass({
   propTypes: {
   },
   getInitialState: function() {
@@ -97,6 +97,7 @@ var App = React.createClass({
     var brick_types = this.state.selectedBrickTypes;
     var instructions = bricker.generateInstructions(brick_types);
     this.setState({ instructions: instructions });
+    this.props.diagram.updateInstructions(instructions);
   },
   updateHeight: function(height) {
     var self = this;
@@ -136,12 +137,12 @@ var App = React.createClass({
       <div>
         <Thumbnails   data={data}
                       thumbnails={this.state.thumbnails} />
+        <Instruction  data={data}
+                      instructions={this.state.instructions} />
         <Dimension    data={data}
                       dimension={this.state.mosaicDimension}
                       defaultValue={this.state.numVerticalBlocks}
                       stackMode={this.state.stackMode} />
-        <Instruction  data={data}
-                      instructions={this.state.instructions} />
         <ColorPicker  data={data}
                       colors={this.state.colors.rows}
                       selectedColors={this.state.selectedColors} />
@@ -150,4 +151,4 @@ var App = React.createClass({
   }
 });
 
-module.exports = App;
+module.exports = Toolbar;

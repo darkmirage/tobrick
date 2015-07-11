@@ -32,7 +32,7 @@ var Thumbnail = React.createClass({
 var Thumbnails = React.createClass({
   render: function() {
     var self = this;
-    var thumbnailNodes = this.props.thumbnails.map(function (thumbnail) {
+    var thumbnailNodes = this.props.thumbnails.map(function(thumbnail) {
       return (
         <Thumbnail key={thumbnail.title} thumbnail={thumbnail} data={self.props.data}/>
       );
