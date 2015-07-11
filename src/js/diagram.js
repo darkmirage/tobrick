@@ -13,7 +13,6 @@ var Diagram = React.createClass({
     this.setState({ instructions: instructions });
   },
   render: function() {
-    console.log(this.state.instructions);
     return (
       <div>
         <h2 id="instructions">Build Instructions</h2>
@@ -26,14 +25,11 @@ var Diagram = React.createClass({
 var InstructionRows = React.createClass({
   render: function() {
     var instructions = this.props.instructions;
-    console.log(instructions);
     if (instructions === null) {
       return null;
     }
 
     var rows = instructions.bricks;
-    // var selected_rows = rows.slice(start_index, end_index);
-    // console.log(selected_rows);
     var rowNodes = rows.map(function(row, index) {
       var row_num = rows.length - index;
       return (
