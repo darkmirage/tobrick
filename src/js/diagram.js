@@ -1,22 +1,25 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global module, React */
+/* global require, module, React */
+
+var Globals = require('./globals');
 
 var Diagram = React.createClass({
   getInitialState: function() {
     return {
-      instructions: null
+      instructions: null,
+      stackMode: false
     };
   },
-  updateInstructions: function(instructions) {
-    this.setState({ instructions: instructions });
+  updateInstructions: function(instructions, stackMode) {
+    this.setState({ instructions: instructions, stackMode: stackMode });
   },
   render: function() {
     return (
       <div>
         <h2 id="instructions">Build Instructions</h2>
-        <InstructionRows instructions={this.state.instructions} />
+        <InstructionRows instructions={this.state.instructions} stackMode={this.state.stackMode} />
       </div>
     );
   }
@@ -29,11 +32,12 @@ var InstructionRows = React.createClass({
       return null;
     }
 
+    var self = this;
     var rows = instructions.bricks;
     var rowNodes = rows.map(function(row, index) {
       var row_num = rows.length - index;
       return (
-        <InstructionRow key={index} rowNumber={row_num} row={row} />
+        <InstructionRow key={index} rowNumber={row_num} row={row} stackMode={self.props.stackMode} />
       );
     });
 
@@ -50,7 +54,7 @@ var InstructionRow = React.createClass({
     var self = this;
     var brickNodes = this.props.row.map(function(brick, index) {
       return (
-        <InstructionBrick key={index} rowNum={self.props.rowNumber} brickNum={index+1} brick={brick} />
+        <InstructionBrick key={index} rowNum={self.props.rowNumber} brickNum={index+1} brick={brick} stackMode={self.props.stackMode} />
       );
     });
     return (
@@ -69,7 +73,7 @@ var InstructionBrick = React.createClass({
     var style = {
       backgroundColor: brick.color.getRGBString(),
       // height: 9.6 * 2,
-      width: 7.8 * 2 * brick.dimension
+      width: this.props.stackMode ? Globals.blockRealWidth * 2 * brick.dimension : Globals.blockRealHeight * 2 * brick.dimension
     };
     var text_style = {
       color: brick.color.isDark() ? '#fff' : '#000',

@@ -1,3 +1,5 @@
+@import 'variables';
+
 /* Main display */
 
 .bricker-main-container {
@@ -144,26 +146,37 @@
 }
 
 .toolbar-label {
-  font-weight: bold;
-  color: #999;
+  @include header-text();
   font-size: 20px;
   line-height: 20px;
-  text-transform: uppercase;
-  pointer-events: none;
   padding: 10px;
 }
 
-.toolbar-block-height {
-  margin-left: 20px;
-}
+.toolbar-options {
+  th, td {
+    padding-right: 10px;
+    padding-bottom: 5px;
+  }
 
-.toolbar-block-height input {
-  border: 0;
-  width: 80px;
-  height: 40px;
-  font-size: 30px;
-  background: #ddd;
-  text-align: center;
+  th {
+    @include header-text;
+    font-size: 16px;
+  }
+
+  input[type="text"] {
+    border: 0;
+    width: 80px;
+    height: 40px;
+    font-size: 30px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 /* File uploader */
@@ -284,11 +297,8 @@
 /* Headers */
 
 h2 {
+  @include header-text();
   padding-top: 20px;
-  font-weight: bold;
-  color: #999;
-  text-transform: uppercase;
-  pointer-events: none;
 }
 
 /* Misc */

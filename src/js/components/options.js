@@ -8,6 +8,7 @@ var Globals = require('../globals');
 var Options = React.createClass({
   getInitialState: function() {
     return {
+      stackMode: this.props.stackMode,
       changed: false,
       height: this.props.defaultHeight,
       useMetric: true
@@ -17,7 +18,7 @@ var Options = React.createClass({
     var realFeet = ((x*0.393700) / 12);
     var feet = Math.floor(realFeet);
     var inches = Math.round((realFeet - feet) * 12);
-    return feet + '\u2032' + inches + '\u2033';
+    return feet + '\u2032 ' + inches + '\u2033';
   },
   _getHeight: function() {
     if (this.props.stackMode) {
@@ -40,9 +41,18 @@ var Options = React.createClass({
     var height = event.target.value;
     this.setState({ height: height, changed: true });
   },
-  onClick: function() {
-    this.props.data.handleUpdateHeight(this.state.height);
+  onClickSave: function() {
+    this.props.data.handleUpdateHeight(this.state.height, this.state.stackMode);
     this.setState({ changed: false });
+  },
+  onFocus: function(event) {
+    $(event.currentTarget).select();
+  },
+  onChangeStackMode: function() {
+    this.setState({ stackMode: !this.state.stackMode, changed: true });
+  },
+  onChangeUseMetric: function() {
+    this.setState({ useMetric: !this.state.useMetric });
   },
   render: function() {
     var button_class = this.state.changed ? "btn btn-custom" : "btn btn-custom disabled";
@@ -50,13 +60,29 @@ var Options = React.createClass({
       <div className="toolbar-section">
         <div className="toolbar-label">Options</div>
         <div className="toolbar-content">
-          <div className="toolbar-block-height">
-            <input type="text" value={this.state.height} onChange={this.onChange}></input>
-            <span> blocks high</span>
-          </div>
+          <table className="toolbar-options">
+            <tr>
+              <th>Height in Blocks</th>
+              <td>
+                <input type="text" className="btn-custom" value={this.state.height} onClick={this.onFocus} onChange={this.onChange}></input>
+              </td>
+            </tr>
+            <tr title="Choose between top down or stacking bricks">
+              <th>Stack Bricks</th>
+              <td>
+                <input type="checkbox" className="btn-custom" checked={this.state.stackMode} onChange={this.onChangeStackMode}></input>
+              </td>
+            </tr>
+            <tr>
+              <th>Use Metric</th>
+              <td>
+                <input type="checkbox" className="btn-custom" checked={this.state.useMetric} onChange={this.onChangeUseMetric}></input>
+              </td>
+            </tr>
+          </table>
 
           <div className="toolbar-save">
-            <button className={button_class} onClick={this.onClick}>Save Options</button>
+            <button className={button_class} onClick={this.onClickSave}>Save Options</button>
           </div>
         </div>
         <div className="toolbar-footer">

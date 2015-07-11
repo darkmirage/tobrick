@@ -97,10 +97,18 @@ var Toolbar = React.createClass({
     var brick_types = this.state.selectedBrickTypes;
     var instructions = bricker.generateInstructions(brick_types);
     this.setState({ instructions: instructions });
-    this.props.diagram.updateInstructions(instructions);
+    this.props.diagram.updateInstructions(instructions, this.state.stackMode);
   },
-  updateHeight: function(height) {
+  updateHeight: function(height, stackMode) {
     var self = this;
+    if (stackMode !== this.state.stackMode) {
+      this.state.numVerticalBlocks = height;
+      this.state.stackMode = stackMode;
+      this.setState({ numVerticalBlocks: height, stackMode: stackMode });
+      this.resetBricker();
+      return;
+    }
+
     self.setState({ ready: false });
     this.state.bricker.changeSize(height, function() {
       self.refreshInstructions();
@@ -124,6 +132,7 @@ var Toolbar = React.createClass({
     }
   },
   render: function() {
+    var self = this;
     var data = {
       ready: this.state.ready,
       handleAddToPalette: this.addToPalette,
@@ -131,7 +140,10 @@ var Toolbar = React.createClass({
       handleReset: this.resetBricker,
       handleUpdateHeight: this.updateHeight,
       handleChangeImage: this.changeImage,
-      handleUploadedImage: this.addToThumbnails
+      handleUploadedImage: this.addToThumbnails,
+      handleStackMode: function() {
+        self.setState({ stackMode: !self.state.stackMode });
+      }
     };
     return (
       <div>
