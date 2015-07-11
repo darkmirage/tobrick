@@ -47,8 +47,8 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
     context.fillRect(0, 0, new_width, new_height);
 
     // Seems to work better with some arbitrary offsets... Not sure if it's problem with DitherJS
-    // var offset = 5;
-    var offset = 0;
+    var offset = 4;
+    // var offset = 0;
     context.drawImage(kOrigImage[0], offset, offset, src_width, src_height, 0, 0, new_width, new_height);
 
     // Not sure if there's a race condition here

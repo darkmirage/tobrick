@@ -42,7 +42,6 @@ var Toolbar = React.createClass({
       }
     });
     this.props.image.on('load', function() {
-      self.setState({ numVerticalBlocks: self.getDefaultHeight() });
       self.resetBricker();
     });
   },
