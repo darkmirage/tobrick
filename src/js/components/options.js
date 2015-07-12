@@ -54,8 +54,12 @@ var Options = React.createClass({
   onChangeUseMetric: function() {
     this.setState({ useMetric: !this.state.useMetric });
   },
+  componentWillReceiveProps: function(props) {
+    this.setState({ height: props.defaultHeight, changed: false });
+  },
   render: function() {
     var button_class = this.state.changed ? "btn btn-primary" : "btn btn-primary disabled";
+
     return (
       <div className="toolbar-section">
         <div className="toolbar-label">Options</div>

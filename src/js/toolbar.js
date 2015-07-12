@@ -77,12 +77,18 @@ var Toolbar = React.createClass({
     var height = Math.floor(this.props.image[0].naturalHeight / (Globals.blockSize / 4));
     return height > Globals.defaultHeight ? Globals.defaultHeight : height;
   },
-  changeImage: function(src, use_colors) {
+  changeImage: function(src, use_colors, dimension) {
     $(Globals.displayBoxSelector).remove();
     if (!use_colors) {
       use_colors = this.state.colors.getDefaultIDs();
     }
-    this.setState({ selectedColors: use_colors }, function() {
+
+    var state = { selectedColors: use_colors };
+    if (dimension) {
+      state.numVerticalBlocks = dimension;
+    }
+
+    this.setState(state, function() {
       this.props.image[0].src = src;
     });
   },
@@ -101,6 +107,7 @@ var Toolbar = React.createClass({
     this.props.diagram.updateInstructions(instructions, this.state.stackMode, this.state.colors);
   },
   updateHeight: function(height, stackMode) {
+    var self = this;
     if (stackMode !== this.state.stackMode) {
       this.setState({ numVerticalBlocks: height, stackMode: stackMode }, function() {
         this.resetBricker();

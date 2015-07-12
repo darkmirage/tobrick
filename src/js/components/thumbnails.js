@@ -11,7 +11,8 @@ var Thumbnail = React.createClass({
   onClick: function(event) {
     var src = event.target.style.backgroundImage.replace('url(','').replace(')','');
     var use_colors = this.props.thumbnail.colors;
-    this.props.data.handleChangeImage(src, use_colors);
+    var dimension = this.props.thumbnail.dimension;
+    this.props.data.handleChangeImage(src, use_colors, dimension);
   },
   render: function() {
     var style = {
