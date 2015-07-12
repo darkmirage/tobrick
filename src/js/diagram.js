@@ -226,6 +226,12 @@ var InstructionBrick = React.createClass({
           at position <strong>{this.props.num}</strong> of row <strong>{this.props.rowNum}</strong>
         </div>
       );
+    } else {
+      hover_box = (
+        <div className="instruction-diagram-hover">
+          <strong>{this.props.color.name}</strong>
+        </div>
+      );
     }
 
     return (
