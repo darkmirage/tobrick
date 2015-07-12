@@ -1,7 +1,7 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global require, module, React */
+/* global $, require, module, React */
 
 var Globals = require('./globals');
 
@@ -107,7 +107,7 @@ var InstructionTable = React.createClass({
       return (
         <td key={index}>{sum}</td>
       );
-    })
+    });
 
     return (
       <table className="instruction-table table table-bordered table-striped">
@@ -208,7 +208,6 @@ var InstructionRow = React.createClass({
 
 var InstructionBrick = React.createClass({
   render: function() {
-    var brick = this.props.brick;
     var style = {
       backgroundColor: this.props.color.getRGBString(),
       // height: 9.6 * 2,

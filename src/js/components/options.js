@@ -1,7 +1,7 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global require, module, React */
+/* global $, require, module, React */
 
 var Globals = require('../globals');
 

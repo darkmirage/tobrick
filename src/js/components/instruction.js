@@ -22,7 +22,7 @@ var Instruction = React.createClass({
   saveImage: function(event) {
     event.currentTarget.href = this._getImageURL();
   },
-  uploadImage: function(event) {
+  uploadImage: function() {
     if (this.state.imgurURL) {
       window.open(this.state.imgurURL, '_blank');
       return;
