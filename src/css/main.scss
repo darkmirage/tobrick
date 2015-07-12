@@ -202,6 +202,10 @@ body {
   &:focus {
     color: #fff;
   }
+
+  &.active {
+    background: #666;
+  }
 }
 
 .btn-file {
@@ -320,6 +324,24 @@ body {
 
 .instruction-diagram-controls {
   margin-bottom: 20px;
+}
+
+/* Brick Picker */
+
+.toolbar-brick-list {
+  button {
+    margin: 5px;
+    font-size: 20px;
+    width: 80px;
+
+    &:hover {
+      background: #999;
+    }
+
+    &.active:hover {
+      background: #666;
+    }
+  }
 }
 
 /* Headers */

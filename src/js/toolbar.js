@@ -11,6 +11,7 @@ var Thumbnails = require('./components/thumbnails');
 var Instruction = require('./components/instruction');
 var Options = require('./components/options');
 var ColorPicker = require('./components/color-picker');
+var BrickPicker = require('./components/brick-picker');
 
 var Toolbar = React.createClass({
   propTypes: {
@@ -19,7 +20,7 @@ var Toolbar = React.createClass({
     return {
       colors: { rows: [] },
       selectedColors: [],
-      selectedBrickTypes: [8, 4, 2, 1],
+      selectedBrickTypes: Globals.initialBrickTypes,
       numVerticalBlocks: this.getDefaultHeight(),
       stackMode: false,
       bricker: null,
@@ -115,6 +116,11 @@ var Toolbar = React.createClass({
     });
     this.setState({ numVerticalBlocks: height });
   },
+  updateSelectedBricks: function(selected_bricks) {
+    this.state.selectedBrickTypes = selected_bricks;
+    this.setState({ selectedBrickTypes: selected_bricks });
+    this.resetBricker();
+  },
   addToPalette: function(selected_id) {
     var ids = this.state.selectedColors;
     if (ids.indexOf(selected_id) === -1) {
@@ -138,6 +144,7 @@ var Toolbar = React.createClass({
       handleRemoveFromPalette: this.removeFromPalette,
       handleReset: this.resetBricker,
       handleUpdateHeight: this.updateHeight,
+      handleUpdateSelectedBricks: this.updateSelectedBricks,
       handleChangeImage: this.changeImage,
       handleUploadedImage: this.addToThumbnails,
       handleStackMode: function() {
@@ -154,6 +161,8 @@ var Toolbar = React.createClass({
                       dimension={this.state.mosaicDimension}
                       defaultHeight={this.state.numVerticalBlocks}
                       stackMode={this.state.stackMode} />
+        <BrickPicker  data={data}
+                      selectedBrickTypes={this.state.selectedBrickTypes} />
         <ColorPicker  data={data}
                       colors={this.state.colors.rows}
                       selectedColors={this.state.selectedColors} />

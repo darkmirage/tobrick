@@ -111,17 +111,21 @@ var InstructionTable = React.createClass({
 
     return (
       <table className="instruction-table table table-bordered table-striped">
-        <tr>
-          <th colSpan="2">Brick Size</th>
-          {headerNodes}
-          <th></th>
-        </tr>
-        {rowNodes}
-        <tr>
-          <td colSpan="2"></td>
-          {sumNodes}
-          <td>{brick_counts.total}</td>
-        </tr>
+        <thead>
+          <tr>
+            <th colSpan="2">Brick Size</th>
+            {headerNodes}
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {rowNodes}
+          <tr>
+            <td colSpan="2"></td>
+            {sumNodes}
+            <td>{brick_counts.total}</td>
+          </tr>
+        </tbody>
       </table>
     );
   }
@@ -182,8 +186,9 @@ var InstructionRow = React.createClass({
   render: function() {
     var self = this;
     var brickNodes = this.props.row.map(function(brick, index) {
+      var key = brick.dimension + ',' + brick.color.id + ',' + index;
       return (
-        <InstructionBrick key={index}
+        <InstructionBrick key={key}
                           rowNum={self.props.rowNumber}
                           num={index+1}
                           dimension={brick.dimension}

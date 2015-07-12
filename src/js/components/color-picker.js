@@ -70,7 +70,7 @@ var ColorPicker = React.createClass({
     this.setState({ changed: false });
   },
   render: function() {
-    var button_class = this.state.changed ? "btn btn-custom" : "btn btn-custom disabled";
+    var button_class = this.state.changed ? "btn btn-primary" : "btn btn-primary disabled";
     return (
       <div className="toolbar-section">
         <div className="toolbar-label">Colors</div>

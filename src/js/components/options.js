@@ -55,30 +55,32 @@ var Options = React.createClass({
     this.setState({ useMetric: !this.state.useMetric });
   },
   render: function() {
-    var button_class = this.state.changed ? "btn btn-custom" : "btn btn-custom disabled";
+    var button_class = this.state.changed ? "btn btn-primary" : "btn btn-primary disabled";
     return (
       <div className="toolbar-section">
         <div className="toolbar-label">Options</div>
         <div className="toolbar-content">
           <table className="toolbar-options">
-            <tr>
-              <th>Height in Blocks</th>
-              <td>
-                <input type="text" className="btn-custom" value={this.state.height} onClick={this.onFocus} onChange={this.onChange}></input>
-              </td>
-            </tr>
-            <tr title="Choose between top down or stacking bricks">
-              <th>Stack Bricks</th>
-              <td>
-                <input type="checkbox" className="btn-custom" checked={this.state.stackMode} onChange={this.onChangeStackMode}></input>
-              </td>
-            </tr>
-            <tr>
-              <th>Use Metric</th>
-              <td>
-                <input type="checkbox" className="btn-custom" checked={this.state.useMetric} onChange={this.onChangeUseMetric}></input>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <th>Height in Blocks</th>
+                <td>
+                  <input type="text" className="btn-custom" value={this.state.height} onClick={this.onFocus} onChange={this.onChange}></input>
+                </td>
+              </tr>
+              <tr title="Choose between top down or stacking bricks">
+                <th>Stack Bricks</th>
+                <td>
+                  <input type="checkbox" className="btn-custom" checked={this.state.stackMode} onChange={this.onChangeStackMode}></input>
+                </td>
+              </tr>
+              <tr>
+                <th>Use Metric</th>
+                <td>
+                  <input type="checkbox" className="btn-custom" checked={this.state.useMetric} onChange={this.onChangeUseMetric}></input>
+                </td>
+              </tr>
+            </tbody>
           </table>
 
           <div className="toolbar-save">
