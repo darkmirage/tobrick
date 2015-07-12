@@ -11,7 +11,11 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Sigmar+One|Pacifico|Open+Sans:400,700' rel='stylesheet' type='text/css'>
 <link href="css/main.css" rel="stylesheet">
+
+<title>Image to Brick &ndash; generates LEGO mosaics and build instructions from any picture</title>
+
 </head>
 
 <body>
@@ -20,11 +24,21 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <div class="page-header">
-      <h1>Image to Brick <small>generates LEGO mosaics and build instructions from any picture</small></h1>
+    <div id="header" class="bricker-page-header">
+      <h1>Image to
+        <span class="red">B</span><span class="blue">r</span><span class="yellow">i</span><span class="black">c</span><span class="green">k</span>
+      </h1>
+      <div class="subtitle">generates LEGO mosaics and build instructions from any picture</div>
+      <div class="subtitle">
+        <a href="http://stanford.edu/~jcx/" target="_blank">contact</a> |
+        <a href="https://github.com/darkmirage/tobrick" target="_blank">source</a> |
+        <a href="#about" id="about-link">about</a>
+      </div>
     </div>
   </div>
+</div>
 
+<div class="row">
   <div class="col-sm-12
               col-lg-3">
     <div id="toolbar"></div>
@@ -34,11 +48,38 @@
               col-lg-8 col-lg-offset-0">
     <div class="bricker-main-container">
       <div class="loading-indicator">Generating...</div>
-      <img src="img/thirdparty/lego_small.png" class="bricker-original">
+      <img src="img/thirdparty/lego.png" class="bricker-original">
     </div>
   </div>
+</div>
+
+<div class="row">
   <div class="col-sm-12">
     <div id="diagram"></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h2 id="about">About</h2>
+  </div>
+
+  <div class="col-lg-6 col-lg-offset-3 col-sm-12">
+    <div class="about-text">
+      <p>Inspired by <a target="_blank" href="http://sailorhg.github.io/legoizer/">Legoizer</a>. Built on <a target="_blank" href="https://facebook.github.io/react/">React</a>. Uses <a target="_blank" href="http://dpiccone.github.io/ditherjs/">DitherJS</a>.</p>
+
+      <p>Image processing takes place serially in the main thread, so it's not very responsive. Maybe I will use Web Workers some day.</p>
+
+      <p>I really want to build the Hokusai painting.</p>
+
+      <p><a target="_blank" href="https://twitter.com/darkmirage">@DarkMirage</a></p>
+
+      <p>
+        <button id="back-link" type="button" class="btn btn-primary btn-lg">
+          Go Back
+        </button>
+      </p>
+    </div>
   </div>
 </div>
 

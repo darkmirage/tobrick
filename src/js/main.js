@@ -17,6 +17,20 @@ $(document).ready(function() {
     { src: "img/thirdparty/firefox.jpg", title: "Firefox", colors: [1, 21, 23, 24, 26, 106, 192] }
   ];
 
+  $('#about-link').on('click', function(event) {
+    $(document.body).animate({
+      scrollTop: $('#about').offset().top
+    }, 400);
+    event.preventDefault();
+  });
+
+  $('#back-link').on('click', function(event) {
+    $(document.body).animate({
+      scrollTop: $('#header').offset().top
+    }, 400);
+    event.preventDefault();
+  });
+
   var diagram = React.render(
     <Diagram />,
     document.getElementById('diagram')

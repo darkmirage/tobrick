@@ -1,5 +1,9 @@
 @import 'variables';
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 /* Main display */
 
 .bricker-main-container {
@@ -320,9 +324,51 @@
 
 /* Headers */
 
+.bricker-page-header {
+  text-align: center;
+  margin: 100px 0;
+
+  .subtitle {
+    color: #666;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 140%;
+  }
+
+  h1 {
+    font-family: 'Pacifico', serif;
+    font-size: 400%;
+    margin-bottom: 20px;
+
+    span {
+      font-family: 'Sigmar One', sans-serif;
+    }
+
+    .red {
+      color: rgba(196,40,27,1.0);
+    }
+
+    .blue {
+      color: rgba(13,105,171,1.0);
+    }
+
+    .yellow {
+      color: rgba(245,205,47,1.0);
+    }
+
+    .black {
+      color: rgba(27,42,52,1.0);
+    }
+
+    .green {
+      color: rgba(40,127,70,1.0);
+    }
+  }
+}
+
 h2 {
   @include header-text();
-  padding-top: 20px;
+  padding: 30px 0;
+  text-align: center;
 }
 
 /* Misc */
@@ -343,4 +389,14 @@ h2 {
 
 .btn:focus {
   outline: none !important;
+}
+
+.about-text {
+  margin-bottom: 400px;
+  font-size: 150%;
+  text-align: center;
+}
+
+#back-link {
+  margin-top: 40px;
 }

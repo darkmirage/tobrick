@@ -41,7 +41,7 @@ var Diagram = React.createClass({
       <div>
         <h2 id="instructions">Build Instructions</h2>
         <div className="instruction-diagram-controls row">
-          <div className="col-sm-4">
+          <div className="col-sm-4 text-right">
             <InstructionToolbar data={data} />
           </div>
           <div className="col-sm-4">
@@ -130,13 +130,13 @@ var InstructionTable = React.createClass({
 var InstructionToolbar = React.createClass({
   scrollToTop: function() {
     $(document.body).animate({
-      scrollTop: $('.page-header').offset().top
+      scrollTop: $('#header').offset().top
     }, 400);
   },
   render: function() {
     var text = this.props.data.showLabel ? 'Hide Brick Labels' : 'Show Brick Labels';
     return (
-      <div className="btn-toolbar">
+      <div className="btn-toolbar" style={{display: 'inline-block'}}>
         <div className="btn-group">
           <button type="button" className="btn btn-primary btn-lg" onClick={this.scrollToTop}>
             Go Back
