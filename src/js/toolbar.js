@@ -82,8 +82,9 @@ var Toolbar = React.createClass({
     if (!use_colors) {
       use_colors = this.state.colors.getDefaultIDs();
     }
-    this.setState({ selectedColors: use_colors });
-    this.props.image[0].src = src;
+    this.setState({ selectedColors: use_colors }, function() {
+      this.props.image[0].src = src;
+    });
   },
   addToThumbnails: function(src, file_name) {
     var self = this;
@@ -100,12 +101,10 @@ var Toolbar = React.createClass({
     this.props.diagram.updateInstructions(instructions, this.state.stackMode, this.state.colors);
   },
   updateHeight: function(height, stackMode) {
-    var self = this;
     if (stackMode !== this.state.stackMode) {
-      this.state.numVerticalBlocks = height;
-      this.state.stackMode = stackMode;
-      this.setState({ numVerticalBlocks: height, stackMode: stackMode });
-      this.resetBricker();
+      this.setState({ numVerticalBlocks: height, stackMode: stackMode }, function() {
+        this.resetBricker();
+      });
       return;
     }
 
@@ -117,9 +116,10 @@ var Toolbar = React.createClass({
     this.setState({ numVerticalBlocks: height });
   },
   updateSelectedBricks: function(selected_bricks) {
-    this.state.selectedBrickTypes = selected_bricks;
-    this.setState({ selectedBrickTypes: selected_bricks });
-    this.resetBricker();
+    var self = this;
+    this.setState({ selectedBrickTypes: selected_bricks }, function() {
+      self.resetBricker();
+    });
   },
   addToPalette: function(selected_id) {
     var ids = this.state.selectedColors;
