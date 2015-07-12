@@ -77,6 +77,10 @@ function Colors(csv_text) {
   self.getColorFromRGBA = function(rgba) {
     return rgbaMap[rgba];
   };
+
+  self.getColorFromID = function(id) {
+    return idMap[id];
+  };
 }
 
 module.exports = Colors;

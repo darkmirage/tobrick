@@ -195,10 +195,14 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
         } else {
           chunk.push(brick);
         }
-        if (!(brick in brick_counts)) {
-          brick_counts[brick] = 0;
+
+        if (!(brick in brick_counts.individual)) {
+          brick_counts.individual[brick] = 0;
         }
-        brick_counts[brick]++;
+        if (brick_counts.brick_colors.indexOf(color.id) === -1) {
+          brick_counts.brick_colors.push(color.id);
+        }
+        brick_counts.individual[brick]++;
         brick_counts.total++;
         num_blocks -= brick.dimension;
       }
@@ -220,7 +224,12 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
 
     var color_matrix = _getColorMatrix(box);
     var brick_matrix = [];
-    var brick_counts = { total: 0 };
+    var brick_counts = {
+      total: 0,
+      individual: {},
+      brick_types: brick_types,
+      brick_colors: []
+    };
 
     for (var i = 0; i < color_matrix.length; i++) {
       var bricks = [];
@@ -242,6 +251,8 @@ function Bricker(original_image, num_vertical_blocks, colors, selected_colors, s
       brick_matrix.push(bricks);
     }
     console.log("Number of bricks: ", brick_counts.total);
+    brick_counts.brick_colors.sort(function(a, b) { return a-b; });
+    brick_counts.brick_types.sort(function(a, b) { return b-a; });
     return { bricks: brick_matrix, brickCounts: brick_counts };
   };
 }

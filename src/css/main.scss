@@ -194,6 +194,10 @@
     background: #666;
     color: #eee;
   }
+
+  &:focus {
+    color: #fff;
+  }
 }
 
 .btn-file {
@@ -231,6 +235,10 @@
 
 .instruction-diagram-row {
   white-space: nowrap;
+
+  &.hide-label .instruction-diagram-brick .instruction-diagram-label {
+    opacity: 0;
+  }
 }
 
 .instruction-diagram-label {
@@ -266,6 +274,21 @@
   box-shadow: 0 0 5px #444;
 }
 
+.instruction-table {
+  white-space: nowrap;
+  td, th {
+    text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .instruction-diagram-brick {
+    border-color: #666;
+  }
+}
+
 .instruction-diagram-brick {
   display: inline-block;
   border: 1px solid #fff;
@@ -279,7 +302,7 @@
   }
 
   &:hover .instruction-diagram-label {
-    opacity: 1.0;
+    opacity: 1.0 !important;
   }
 
   .instruction-diagram-hover {
@@ -291,7 +314,8 @@
   }
 }
 
-.instruction-diagram-body {
+.instruction-diagram-controls {
+  margin-bottom: 20px;
 }
 
 /* Headers */
@@ -314,4 +338,9 @@ h2 {
   text-transform: uppercase;
   font-size: 20px;
   color: #999;
+}
+
+
+.btn:focus {
+  outline: none !important;
 }

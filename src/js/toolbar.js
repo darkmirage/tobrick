@@ -96,7 +96,7 @@ var Toolbar = React.createClass({
     var brick_types = this.state.selectedBrickTypes;
     var instructions = bricker.generateInstructions(brick_types);
     this.setState({ instructions: instructions });
-    this.props.diagram.updateInstructions(instructions, this.state.stackMode);
+    this.props.diagram.updateInstructions(instructions, this.state.stackMode, this.state.colors);
   },
   updateHeight: function(height, stackMode) {
     var self = this;

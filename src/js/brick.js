@@ -10,7 +10,7 @@ function Brick(dimension, color) {
 }
 
 Brick.prototype.toString = function() {
-  return '(' + this.dimension + ', ' + this.color.id + ' ' + this.color.name + ')';
+  return this.dimension + ', ' + this.color.id;
 };
 
 module.exports = Brick;
