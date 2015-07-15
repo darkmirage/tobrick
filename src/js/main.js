@@ -8,8 +8,8 @@ var Diagram = require('./diagram');
 
 $(document).ready(function() {
   var thumbnails = [
-    { src: "img/thirdparty/starry-night.jpg", title: "The Starry Night", dimension: 120 },
-    { src: "img/thirdparty/kanagawa.jpg", title: "The Great Wave off Kanagawa", colors: [1, 5, 23, 24, 26, 140, 194, 199], dimension: 140 },
+    { src: "img/thirdparty/starry-night.jpg", title: "The Starry Night", dimension: 100 },
+    { src: "img/thirdparty/kanagawa.jpg", title: "The Great Wave off Kanagawa", colors: [1, 5, 23, 24, 26, 140, 194, 199], dimension: 120 },
     { src: "img/thirdparty/carpet.jpg", title: "Ukrainian carpet", dimension: 100 },
     { src: "img/thirdparty/lenna.jpg", title: "Lenna", dimension: 100 },
     { src: "img/thirdparty/lego.png", title: "LEGO", colors: [1, 21, 24, 26, 199], dimension: 64 },

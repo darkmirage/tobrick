@@ -1,7 +1,7 @@
 "use strict";
 /* jshint globalstrict: true */
 
-/* global require, module, React */
+/* global $, require, module, React */
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -9,7 +9,8 @@ var Uploader = require('./uploader');
 
 var Thumbnail = React.createClass({
   onClick: function(event) {
-    var src = event.target.style.backgroundImage.replace('url(','').replace(')','');
+    var src = $(event.target).data('url').trim();
+    console.log(src);
     var use_colors = this.props.thumbnail.colors;
     var dimension = this.props.thumbnail.dimension;
     this.props.data.handleChangeImage(src, use_colors, dimension);
@@ -20,7 +21,7 @@ var Thumbnail = React.createClass({
     };
     return (
       <div className="bricker-thumbnail-box">
-        <div style={style} className="bricker-thumbnail" title={this.props.thumbnail.title} onClick={this.onClick} />
+        <div style={style} data-url={this.props.thumbnail.src} className="bricker-thumbnail" title={this.props.thumbnail.title} onClick={this.onClick} />
         <div className="bricker-thumbnail-popup">
           <img src={this.props.thumbnail.src} className="bricker-thumbnail-popup-image" />
           <div className="bricker-thumbnail-popup-caption">{this.props.thumbnail.title}</div>
