@@ -47,7 +47,7 @@ var Diagram = React.createClass({
           <div className="col-sm-4">
             <InstructionTable data={data} />
           </div>
-          
+
         </div>
         <InstructionRows data={data} />
       </div>
@@ -133,7 +133,7 @@ var InstructionTable = React.createClass({
 
 var InstructionToolbar = React.createClass({
   scrollToTop: function() {
-    $(document.body).animate({
+    $('body,html').animate({
       scrollTop: $('#header').offset().top
     }, 400);
   },

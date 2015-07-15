@@ -15,7 +15,7 @@ var Instruction = React.createClass({
     return canvas.get(0).toDataURL('image/png');
   },
   scrollToInstructions: function() {
-    $(document.body).animate({
+    $('body,html').animate({
       scrollTop: $('#instructions').offset().top
     }, 400);
   },

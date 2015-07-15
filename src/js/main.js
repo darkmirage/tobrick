@@ -18,14 +18,14 @@ $(document).ready(function() {
   ];
 
   $('#about-link').on('click', function(event) {
-    $(document.body).animate({
+    $('body,html').animate({
       scrollTop: $('#about').offset().top
     }, 400);
     event.preventDefault();
   });
 
   $('#back-link').on('click', function(event) {
-    $(document.body).animate({
+    $('body,html').animate({
       scrollTop: $('#header').offset().top
     }, 400);
     event.preventDefault();
