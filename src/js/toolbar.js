@@ -124,6 +124,7 @@ var Toolbar = React.createClass({
   },
   updateSelectedBricks: function(selected_bricks) {
     var self = this;
+    selected_bricks.sort(function(a, b) { return b-a; });
     this.setState({ selectedBrickTypes: selected_bricks }, function() {
       self.resetBricker();
     });
