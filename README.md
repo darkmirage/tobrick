@@ -14,8 +14,9 @@ npm run check    # typecheck, lint and unit tests
 npm run build    # static site in dist/
 ```
 
-The build uses relative asset paths, so `dist/` can be served from any host or subpath, such as
-GitHub Pages.
+The build uses relative asset paths, so `dist/` can be served from any host or subpath. Every push
+to `master` deploys to GitHub Pages at https://darkmirage.github.io/tobrick/ via
+`.github/workflows/deploy.yml`.
 
 ## How it works
 
