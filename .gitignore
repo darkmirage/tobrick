@@ -1,4 +1,4 @@
-public
 node_modules
-.sass-cache
-thirdparty
+dist
+*.tsbuildinfo
+.DS_Store
